@@ -7,6 +7,8 @@ const mobileNavQuery = window.matchMedia("(max-width: 900px)");
 const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 let preloaderHidden = false;
 
+body.classList.add("js-enabled");
+
 const hidePreloader = () => {
   if (preloaderHidden) {
     return;
@@ -16,6 +18,7 @@ const hidePreloader = () => {
 
   if (!preloader) {
     body.classList.remove("is-loading");
+    body.classList.add("is-ready");
     return;
   }
 
@@ -24,6 +27,7 @@ const hidePreloader = () => {
 
   window.setTimeout(() => {
     preloader.remove();
+    body.classList.add("is-ready");
   }, 300);
 };
 
