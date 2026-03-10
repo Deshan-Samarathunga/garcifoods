@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="560" viewBox="0 0 920 560" role="img" aria-labelledby="gallery6Title">
+  <title id="gallery6Title">Placeholder gallery image six</title>
+  <rect width="920" height="560" fill="#dce7b2"/>
+  <circle cx="188" cy="288" r="124" fill="#1e6a49" opacity="0.88"/>
+  <rect x="340" y="106" width="478" height="116" rx="58" fill="#ffffff" opacity="0.82"/>
+  <rect x="340" y="254" width="404" height="172" rx="36" fill="#d7ae52" opacity="0.9"/>
+  <text x="372" y="180" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#4f291e">Ready for final packaging</text>
+</svg>

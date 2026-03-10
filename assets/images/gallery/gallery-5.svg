@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="920" viewBox="0 0 720 920" role="img" aria-labelledby="gallery5Title">
+  <title id="gallery5Title">Placeholder gallery image five</title>
+  <rect width="720" height="920" fill="#efe6db"/>
+  <rect x="84" y="84" width="552" height="752" rx="42" fill="#ffffff" opacity="0.9"/>
+  <rect x="140" y="146" width="440" height="158" rx="28" fill="#d7ae52"/>
+  <rect x="140" y="348" width="440" height="146" rx="28" fill="#9eb857"/>
+  <rect x="140" y="538" width="440" height="146" rx="28" fill="#1e6a49"/>
+  <text x="178" y="240" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#4f291e">Clean work area</text>
+  <text x="178" y="440" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#4f291e">Ingredient prep</text>
+  <text x="178" y="630" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#ffffff">Packaging queue</text>
+</svg>
