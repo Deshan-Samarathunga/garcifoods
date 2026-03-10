@@ -30,8 +30,9 @@ const hidePreloader = () => {
 if (document.readyState === "complete") {
   hidePreloader();
 } else {
+  document.addEventListener("DOMContentLoaded", hidePreloader, { once: true });
   window.addEventListener("load", hidePreloader, { once: true });
-  window.setTimeout(hidePreloader, 2500);
+  window.setTimeout(hidePreloader, 1200);
 }
 
 const closeNavigation = () => {
@@ -93,9 +94,58 @@ window.addEventListener("scroll", syncHeaderState, { passive: true });
 
 const heroVideos = Array.from(document.querySelectorAll("[data-hero-video]"));
 const desktopVideoQuery = window.matchMedia("(min-width: 901px) and (prefers-reduced-motion: no-preference)");
+const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+let heroVideoIdleId = null;
+let heroVideoDelayId = null;
+
+const canStreamHeroVideo = () => {
+  if (!desktopVideoQuery.matches) {
+    return false;
+  }
+
+  if (!connection) {
+    return true;
+  }
+
+  if (connection.saveData) {
+    return false;
+  }
+
+  const networkType = connection.effectiveType || "";
+  return networkType !== "slow-2g" && networkType !== "2g";
+};
+
+const clearQueuedHeroVideoLoad = () => {
+  if (heroVideoIdleId !== null && typeof window.cancelIdleCallback === "function") {
+    window.cancelIdleCallback(heroVideoIdleId);
+  }
+
+  if (heroVideoDelayId !== null) {
+    window.clearTimeout(heroVideoDelayId);
+  }
+
+  heroVideoIdleId = null;
+  heroVideoDelayId = null;
+};
+
+const queueHeroVideoLoad = (callback) => {
+  if (typeof window.requestIdleCallback === "function") {
+    heroVideoIdleId = window.requestIdleCallback(() => {
+      heroVideoIdleId = null;
+      callback();
+    }, { timeout: 2200 });
+    return;
+  }
+
+  heroVideoDelayId = window.setTimeout(() => {
+    heroVideoDelayId = null;
+    callback();
+  }, 1200);
+};
 
 const syncHeroVideos = () => {
-  const shouldPlay = desktopVideoQuery.matches;
+  clearQueuedHeroVideoLoad();
+  const shouldPlay = canStreamHeroVideo();
 
   heroVideos.forEach((video) => {
     const frame = video.closest(".hero-video-bg");
@@ -111,19 +161,21 @@ const syncHeroVideos = () => {
       return;
     }
 
-    frame?.removeAttribute("hidden");
+    queueHeroVideoLoad(() => {
+      frame?.removeAttribute("hidden");
 
-    if (video.dataset.videoLoaded !== "true" && source.dataset.src) {
-      source.src = source.dataset.src;
-      video.load();
-      video.dataset.videoLoaded = "true";
-    }
+      if (video.dataset.videoLoaded !== "true" && source.dataset.src) {
+        source.src = source.dataset.src;
+        video.load();
+        video.dataset.videoLoaded = "true";
+      }
 
-    const playPromise = video.play();
+      const playPromise = video.play();
 
-    if (playPromise && typeof playPromise.catch === "function") {
-      playPromise.catch(() => {});
-    }
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(() => {});
+      }
+    });
   });
 };
 
@@ -134,6 +186,14 @@ if (heroVideos.length) {
     desktopVideoQuery.addEventListener("change", syncHeroVideos);
   } else {
     desktopVideoQuery.addListener(syncHeroVideos);
+  }
+
+  if (connection) {
+    if (typeof connection.addEventListener === "function") {
+      connection.addEventListener("change", syncHeroVideos);
+    } else if (typeof connection.addListener === "function") {
+      connection.addListener(syncHeroVideos);
+    }
   }
 }
 
@@ -308,8 +368,25 @@ sliders.forEach((slider) => {
   let activeIndex = initialIndex >= 0 ? initialIndex : 0;
   let timerId = null;
 
+  const hydrateSlideImage = (slide) => {
+    const image = slide?.querySelector("img[data-src]");
+
+    if (!(image instanceof HTMLImageElement) || !image.dataset.src) {
+      return;
+    }
+
+    image.src = image.dataset.src;
+    image.removeAttribute("data-src");
+  };
+
+  const primeSlideAssets = (index) => {
+    hydrateSlideImage(slides[index]);
+    hydrateSlideImage(slides[(index + 1) % slides.length]);
+  };
+
   const showSlide = (nextIndex) => {
     activeIndex = (nextIndex + slides.length) % slides.length;
+    primeSlideAssets(activeIndex);
 
     slides.forEach((slide, index) => {
       const isActive = index === activeIndex;
