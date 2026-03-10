@@ -99,3 +99,88 @@ if (slider) {
   showSlide(0);
   restartTimer();
 }
+
+const productModal = document.querySelector("#product-modal");
+
+if (productModal) {
+  const productTriggers = Array.from(document.querySelectorAll("[data-product-modal-trigger]"));
+  const closeControls = Array.from(productModal.querySelectorAll("[data-product-modal-close]"));
+  const modalTitle = productModal.querySelector("#product-modal-title");
+  const modalImage = productModal.querySelector("#product-modal-image");
+  const modalFeatures = productModal.querySelector("#product-modal-features");
+  let previousFocusedElement = null;
+
+  const setModalFeatures = (featureList) => {
+    if (!modalFeatures) {
+      return;
+    }
+
+    modalFeatures.innerHTML = "";
+
+    featureList.forEach((feature) => {
+      const item = document.createElement("li");
+      item.textContent = feature;
+      modalFeatures.append(item);
+    });
+  };
+
+  const openProductModal = (trigger) => {
+    const title = trigger.dataset.title || "Product Details";
+    const image = trigger.dataset.image || "";
+    const alt = trigger.dataset.alt || title;
+    const features = (trigger.dataset.features || "")
+      .split("|")
+      .map((entry) => entry.trim())
+      .filter(Boolean);
+
+    if (modalTitle) {
+      modalTitle.textContent = title;
+    }
+
+    if (modalImage && image) {
+      modalImage.src = image;
+      modalImage.alt = alt;
+    }
+
+    setModalFeatures(features);
+    previousFocusedElement = document.activeElement;
+    productModal.hidden = false;
+    body.classList.add("product-modal-open");
+    navToggle?.setAttribute("aria-expanded", "false");
+    body.classList.remove("nav-open");
+    productModal.querySelector(".product-modal-close")?.focus();
+  };
+
+  const closeProductModal = () => {
+    if (productModal.hidden) {
+      return;
+    }
+
+    productModal.hidden = true;
+    body.classList.remove("product-modal-open");
+
+    if (previousFocusedElement instanceof HTMLElement) {
+      previousFocusedElement.focus();
+    }
+  };
+
+  productTriggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => openProductModal(trigger));
+    trigger.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openProductModal(trigger);
+      }
+    });
+  });
+
+  closeControls.forEach((control) => {
+    control.addEventListener("click", closeProductModal);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeProductModal();
+    }
+  });
+}
