@@ -53,6 +53,121 @@ const syncHeaderState = () => {
 syncHeaderState();
 window.addEventListener("scroll", syncHeaderState, { passive: true });
 
+const supportsGarciCursor = window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
+
+if (body) {
+  const cursor = document.createElement("div");
+  const cursorCircle = document.createElement("div");
+  const cursorFrames = Array.from(document.querySelectorAll("iframe"));
+  const cursorHoverSelector = [
+    "a[href]",
+    "button",
+    "[role='button']",
+    ".nav-toggle",
+    "[data-product-modal-trigger]",
+    "[data-product-modal-close]"
+  ].join(", ");
+  const cursorSuspendSelector = "input, textarea, select";
+  let cursorVisible = false;
+  let cursorSuspended = false;
+  let cursorHovering = false;
+  let cursorPressed = false;
+
+  cursor.className = "garci-cursor";
+  cursorCircle.className = "garci-cursor-circle";
+  cursor.setAttribute("aria-hidden", "true");
+  cursor.append(cursorCircle);
+  body.append(cursor);
+
+  const syncCursorState = () => {
+    const isVisible = cursorVisible && !cursorSuspended;
+
+    body.classList.toggle("garci-cursor-visible", isVisible);
+    body.classList.toggle("garci-cursor-hover", isVisible && cursorHovering);
+    body.classList.toggle("garci-cursor-pressed", isVisible && cursorPressed);
+  };
+
+  const resetGarciCursor = () => {
+    cursorVisible = false;
+    cursorSuspended = false;
+    cursorHovering = false;
+    cursorPressed = false;
+    body.classList.remove("garci-cursor-visible", "garci-cursor-hover", "garci-cursor-pressed");
+  };
+
+  const syncGarciCursorState = () => {
+    const enabled = supportsGarciCursor.matches;
+
+    body.classList.toggle("garci-cursor-enabled", enabled);
+
+    if (!enabled) {
+      resetGarciCursor();
+    }
+  };
+
+  document.addEventListener("pointermove", (event) => {
+    if (!supportsGarciCursor.matches) {
+      return;
+    }
+
+    const currentTarget = event.target instanceof Element ? event.target : null;
+    cursorSuspended = Boolean(currentTarget?.closest(cursorSuspendSelector));
+    cursorHovering = Boolean(currentTarget?.closest(cursorHoverSelector));
+    cursor.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0) translate(-50%, -50%)`;
+    cursorVisible = true;
+
+    if (cursorSuspended) {
+      cursorPressed = false;
+    }
+
+    syncCursorState();
+  }, { passive: true });
+
+  document.documentElement.addEventListener("mouseleave", resetGarciCursor);
+  window.addEventListener("blur", resetGarciCursor);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      resetGarciCursor();
+    }
+  });
+
+  document.addEventListener("pointerdown", () => {
+    if (supportsGarciCursor.matches && cursorVisible && !cursorSuspended) {
+      cursorPressed = true;
+      syncCursorState();
+    }
+  });
+
+  document.addEventListener("pointerup", () => {
+    cursorPressed = false;
+    syncCursorState();
+  });
+
+  cursorFrames.forEach((frame) => {
+    frame.addEventListener("mouseenter", () => {
+      if (supportsGarciCursor.matches) {
+        cursorSuspended = true;
+        cursorPressed = false;
+        syncCursorState();
+      }
+    });
+
+    frame.addEventListener("mouseleave", () => {
+      if (supportsGarciCursor.matches) {
+        cursorSuspended = false;
+      }
+    });
+  });
+
+  if (typeof supportsGarciCursor.addEventListener === "function") {
+    supportsGarciCursor.addEventListener("change", syncGarciCursorState);
+  } else {
+    supportsGarciCursor.addListener(syncGarciCursorState);
+  }
+
+  syncGarciCursorState();
+}
+
 const sliders = Array.from(document.querySelectorAll("[data-slider]"));
 
 sliders.forEach((slider) => {
