@@ -1296,10 +1296,10 @@ body {
 .origin-icon {
   width: 4.4rem;
   height: 4.4rem;
-  border-radius: 16px;
+  border-radius: 0;
   clip-path: none;
-  background: linear-gradient(135deg, #2d7c57 0%, #1f5f43 100%);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  background: url("../images/hero/sri-lanka-silhouette.png") center/contain no-repeat;
+  box-shadow: none;
 }
 
 .feature-pills {
