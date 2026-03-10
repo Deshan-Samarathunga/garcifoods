@@ -2572,3 +2572,212 @@ body.product-modal-open {
     line-height: 1.7 !important;
   }
 }
+
+/* Mobile optimization refinements */
+.contact-phone-list a,
+.contact-address a,
+.footer-links a,
+.review-showcase .ti-review-content,
+.review-showcase .ti-disclaimer {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .site-header {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom-color: var(--border);
+  }
+
+  .site-nav {
+    position: fixed;
+    top: calc(4.75rem + 0.75rem);
+    left: 0.75rem;
+    right: 0.75rem;
+    z-index: 60;
+    max-height: calc(100dvh - 6rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 1rem;
+  }
+
+  .site-nav a:not(.btn) {
+    width: 100%;
+    justify-content: flex-start;
+    padding-inline: 0.85rem;
+  }
+
+  .hero.has-video-bg,
+  .page-hero.has-video-bg {
+    min-height: auto;
+  }
+
+  .hero-visual {
+    width: min(100%, 26rem);
+    margin-inline: auto;
+  }
+
+  .hero-carousel-stage {
+    min-height: clamp(20rem, 82vw, 25rem);
+  }
+
+  .hero-badge {
+    position: absolute;
+    right: 0.9rem;
+    bottom: 3.4rem;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    gap: 0.15rem;
+    width: clamp(5.8rem, 22vw, 6.8rem);
+    height: auto;
+    margin: 0;
+    padding: 0.85rem 0.7rem;
+    border-radius: 1.1rem;
+    text-align: center;
+  }
+
+  .hero-badge strong {
+    font-size: clamp(1.3rem, 5vw, 1.7rem);
+  }
+
+  .hero-badge span {
+    margin-top: 0.05rem;
+    font-size: clamp(0.68rem, 2.5vw, 0.82rem);
+    white-space: normal;
+  }
+
+  .review-widget-shell {
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 680px) {
+  .hero {
+    padding-top: 6.25rem;
+    padding-bottom: 2.75rem;
+  }
+
+  .hero-copy {
+    text-align: left;
+  }
+
+  .hero-copy h1,
+  .hero-copy p:not(.eyebrow),
+  .page-hero-inner {
+    margin-inline: 0;
+  }
+
+  .hero-actions {
+    justify-content: stretch;
+  }
+
+  .hero-actions .btn {
+    flex: 1 1 100%;
+  }
+
+  .hero-carousel-stage {
+    min-height: clamp(18rem, 92vw, 23rem);
+  }
+
+  .hero-blob {
+    display: grid;
+    place-items: center;
+    min-height: 0;
+    padding: 0.9rem;
+    border-radius: 1.6rem;
+  }
+
+  .hero-blob img {
+    width: 84%;
+    height: 84%;
+  }
+
+  .page-hero {
+    min-height: auto;
+    padding-top: 6.25rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(2.2rem, 10vw, 3.4rem);
+  }
+
+  .map-frame {
+    min-height: clamp(16rem, 52vw, 22rem);
+  }
+
+  .product-modal {
+    align-items: end;
+    padding: 0.5rem;
+  }
+
+  .product-modal-dialog {
+    max-height: calc(100dvh - 1rem);
+  }
+
+  .product-modal-body {
+    overscroll-behavior: contain;
+  }
+
+  .review-showcase .ti-controls {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .review-showcase .ti-next,
+  .review-showcase .ti-prev {
+    position: static !important;
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-nav {
+    top: calc(4.5rem + 0.5rem);
+    left: 0.5rem;
+    right: 0.5rem;
+    padding: 0.85rem;
+  }
+
+  .site-nav a:not(.btn) {
+    min-height: 3rem;
+    padding-inline: 0.75rem;
+  }
+
+  .hero-copy p:not(.eyebrow),
+  .page-hero p:not(.eyebrow) {
+    font-size: 0.95rem;
+  }
+
+  .hero-visual {
+    width: 100%;
+  }
+
+  .hero-badge {
+    right: 0.7rem;
+    bottom: 3.2rem;
+    width: 5.3rem;
+    padding: 0.72rem 0.55rem;
+  }
+
+  .hero-badge strong {
+    font-size: 1.15rem;
+  }
+
+  .hero-badge span {
+    font-size: 0.7rem;
+  }
+
+  .contact-phone-list,
+  .footer-links {
+    gap: 0.65rem;
+  }
+
+  .review-showcase .ti-review-content {
+    font-size: 0.96rem !important;
+  }
+}

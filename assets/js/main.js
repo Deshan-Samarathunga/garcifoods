@@ -3,6 +3,8 @@ const navToggle = document.querySelector(".nav-toggle");
 const siteNav = document.querySelector(".site-nav");
 const header = document.querySelector(".site-header");
 const preloader = document.querySelector("#site-preloader");
+const mobileNavQuery = window.matchMedia("(max-width: 900px)");
+const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 let preloaderHidden = false;
 
 const hidePreloader = () => {
@@ -32,6 +34,11 @@ if (document.readyState === "complete") {
   window.setTimeout(hidePreloader, 2500);
 }
 
+const closeNavigation = () => {
+  body.classList.remove("nav-open");
+  navToggle?.setAttribute("aria-expanded", "false");
+};
+
 if (navToggle && siteNav) {
   navToggle.addEventListener("click", () => {
     const isOpen = body.classList.toggle("nav-open");
@@ -40,10 +47,41 @@ if (navToggle && siteNav) {
 
   siteNav.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
-      body.classList.remove("nav-open");
-      navToggle.setAttribute("aria-expanded", "false");
+      closeNavigation();
     });
   });
+
+  document.addEventListener("click", (event) => {
+    if (!body.classList.contains("nav-open")) {
+      return;
+    }
+
+    const target = event.target;
+
+    if (!(target instanceof Node) || siteNav.contains(target) || navToggle.contains(target)) {
+      return;
+    }
+
+    closeNavigation();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && body.classList.contains("nav-open")) {
+      closeNavigation();
+    }
+  });
+
+  const syncNavigationViewport = () => {
+    if (!mobileNavQuery.matches) {
+      closeNavigation();
+    }
+  };
+
+  if (typeof mobileNavQuery.addEventListener === "function") {
+    mobileNavQuery.addEventListener("change", syncNavigationViewport);
+  } else {
+    mobileNavQuery.addListener(syncNavigationViewport);
+  }
 }
 
 const syncHeaderState = () => {
@@ -52,6 +90,92 @@ const syncHeaderState = () => {
 
 syncHeaderState();
 window.addEventListener("scroll", syncHeaderState, { passive: true });
+
+const heroVideos = Array.from(document.querySelectorAll("[data-hero-video]"));
+const desktopVideoQuery = window.matchMedia("(min-width: 901px) and (prefers-reduced-motion: no-preference)");
+
+const syncHeroVideos = () => {
+  const shouldPlay = desktopVideoQuery.matches;
+
+  heroVideos.forEach((video) => {
+    const frame = video.closest(".hero-video-bg");
+    const source = video.querySelector("source[data-src]");
+
+    if (!(source instanceof HTMLSourceElement)) {
+      return;
+    }
+
+    if (!shouldPlay) {
+      frame?.setAttribute("hidden", "");
+      video.pause();
+      return;
+    }
+
+    frame?.removeAttribute("hidden");
+
+    if (video.dataset.videoLoaded !== "true" && source.dataset.src) {
+      source.src = source.dataset.src;
+      video.load();
+      video.dataset.videoLoaded = "true";
+    }
+
+    const playPromise = video.play();
+
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => {});
+    }
+  });
+};
+
+if (heroVideos.length) {
+  syncHeroVideos();
+
+  if (typeof desktopVideoQuery.addEventListener === "function") {
+    desktopVideoQuery.addEventListener("change", syncHeroVideos);
+  } else {
+    desktopVideoQuery.addListener(syncHeroVideos);
+  }
+}
+
+const reviewWidget = document.querySelector("[data-review-widget]");
+
+if (reviewWidget) {
+  const loadReviewWidget = () => {
+    if (reviewWidget.dataset.widgetLoaded === "true") {
+      return;
+    }
+
+    reviewWidget.dataset.widgetLoaded = "true";
+
+    if (document.querySelector('script[src^="https://cdn.trustindex.io/loader.js"]')) {
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://cdn.trustindex.io/loader.js?ver=1";
+    script.async = true;
+    document.body.append(script);
+  };
+
+  if ("IntersectionObserver" in window) {
+    const reviewObserver = new IntersectionObserver((entries) => {
+      const reviewEntry = entries.find((entry) => entry.isIntersecting);
+
+      if (!reviewEntry) {
+        return;
+      }
+
+      loadReviewWidget();
+      reviewObserver.disconnect();
+    }, {
+      rootMargin: "220px 0px"
+    });
+
+    reviewObserver.observe(reviewWidget);
+  } else {
+    loadReviewWidget();
+  }
+}
 
 const supportsGarciCursor = window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
 
@@ -208,7 +332,7 @@ sliders.forEach((slider) => {
   const restartTimer = () => {
     stopTimer();
 
-    if (slides.length < 2 || interval <= 0) {
+    if (reducedMotionQuery.matches || slides.length < 2 || interval <= 0) {
       return;
     }
 
@@ -241,6 +365,21 @@ sliders.forEach((slider) => {
       restartTimer();
     }
   });
+
+  const syncSliderMotion = () => {
+    if (reducedMotionQuery.matches) {
+      stopTimer();
+      return;
+    }
+
+    restartTimer();
+  };
+
+  if (typeof reducedMotionQuery.addEventListener === "function") {
+    reducedMotionQuery.addEventListener("change", syncSliderMotion);
+  } else {
+    reducedMotionQuery.addListener(syncSliderMotion);
+  }
 
   showSlide(activeIndex);
   restartTimer();
@@ -307,8 +446,7 @@ if (productModal) {
     previousFocusedElement = document.activeElement;
     productModal.hidden = false;
     body.classList.add("product-modal-open");
-    navToggle?.setAttribute("aria-expanded", "false");
-    body.classList.remove("nav-open");
+    closeNavigation();
     productModal.querySelector(".product-modal-close")?.focus();
   };
 

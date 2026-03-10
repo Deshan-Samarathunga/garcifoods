@@ -44,8 +44,8 @@
   <main>
     <section class="page-hero has-video-bg">
       <div class="hero-video-bg" aria-hidden="true">
-        <video autoplay muted loop playsinline preload="metadata">
-          <source src="../assets/videos/garci-hero-background.mp4" type="video/mp4">
+        <video muted loop playsinline preload="none" data-hero-video>
+          <source data-src="../assets/videos/garci-hero-background.mp4" type="video/mp4">
         </video>
       </div>
       <div class="container page-hero-inner">
@@ -106,6 +106,7 @@
             </label>
 
             <button class="btn btn-primary" type="submit">Send Inquiry</button>
+            <p class="contact-note" id="contact-form-note" data-static-form-note aria-live="polite"></p>
           </form>
 
           <div class="map-panel reveal reveal-delay-1">
@@ -134,7 +135,7 @@
   <footer class="site-footer">
     <div class="container footer-grid">
       <div class="footer-brand">
-        <img src="../assets/images/brand/logo-garci.png" alt="Garci logo">
+        <img src="../assets/images/brand/logo-garci.png" alt="Garci logo" loading="lazy" decoding="async">
         <p>Pure Sri Lankan flour products presented through a clean multi-page static website.</p>
       </div>
 
