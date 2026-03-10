@@ -1858,9 +1858,14 @@ body.garci-cursor-enabled.garci-cursor-pressed .garci-cursor-circle {
 
 .hero.has-video-bg::after {
   background:
-    radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.26), transparent 40%),
-    radial-gradient(circle at 84% 86%, rgba(209, 162, 75, 0.14), transparent 40%),
-    linear-gradient(180deg, rgba(237, 244, 241, 0.84), rgba(236, 243, 240, 0.9));
+    radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.08), transparent 40%),
+    radial-gradient(circle at 84% 86%, rgba(209, 162, 75, 0.05), transparent 40%),
+    linear-gradient(180deg, rgba(237, 244, 241, 0.34), rgba(236, 243, 240, 0.4));
+}
+
+.hero.has-video-bg .hero-video-bg video {
+  opacity: 0.58;
+  filter: blur(0.25px) saturate(1.14) contrast(1.06) brightness(0.92);
 }
 
 .page-hero.has-video-bg::after {
