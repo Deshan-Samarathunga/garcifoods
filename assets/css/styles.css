@@ -1575,12 +1575,6 @@ body {
   min-height: 100dvh;
 }
 
-.page-hero.has-video-bg {
-  min-height: 100vh;
-  min-height: 100svh;
-  min-height: 100dvh;
-}
-
 body.is-loading .hero-video-bg {
   opacity: 0;
 }
@@ -2093,6 +2087,7 @@ body.product-modal-open {
 
 .map-panel {
   display: grid;
+  grid-template-rows: auto 1fr;
   gap: 1rem;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -2119,12 +2114,13 @@ body.product-modal-open {
   border: 1px solid var(--border);
   border-radius: 14px;
   background: var(--surface-alt);
+  min-height: clamp(20rem, 40vh, 28rem);
 }
 
 .map-frame iframe {
   display: block;
   width: 100%;
-  min-height: 32rem;
+  height: 100%;
 }
 
 .cta-panel {
@@ -2217,7 +2213,7 @@ body.product-modal-open {
     border-radius: 14px;
   }
 
-  .map-frame iframe {
+  .map-frame {
     min-height: 24rem;
   }
 
