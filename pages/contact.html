@@ -58,7 +58,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section contact-details-section">
       <div class="container">
         <div class="contact-grid">
           <article class="contact-card reveal">
@@ -76,25 +76,29 @@
           <article class="contact-card reveal reveal-delay-2">
             <p class="eyebrow">Location</p>
             <h3>Office</h3>
-            <p>No 272, Wathumulla RD, Asgiriya, Gampaha</p>
+            <address class="contact-address">
+              <a class="text-link text-link-inline" href="https://maps.google.com/?q=No.+272,+Wathumulla+Rd,+Asgiriya,+Gampaha" target="_blank" rel="noopener noreferrer">
+                No. 272, Wathumulla Rd, Asgiriya, Gampaha
+              </a>
+            </address>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section contact-main-section">
       <div class="container">
         <div class="contact-layout">
-          <form class="contact-form reveal" action="#" method="post">
+          <form class="contact-form reveal" action="#" method="post" data-static-form aria-describedby="contact-form-note">
             <div class="form-grid">
               <label class="form-field">
                 <span>Name</span>
-                <input type="text" name="name" placeholder="Your name">
+                <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
               </label>
 
               <label class="form-field">
                 <span>Email</span>
-                <input type="email" name="email" placeholder="your@email.com">
+                <input type="email" name="email" placeholder="your@email.com" autocomplete="email" required>
               </label>
             </div>
 
@@ -105,11 +109,13 @@
 
             <label class="form-field">
               <span>Message</span>
-              <textarea name="message" rows="6" placeholder="Tell us what you need"></textarea>
+              <textarea name="message" rows="6" placeholder="Tell us what you need" required></textarea>
             </label>
 
             <button class="btn btn-primary" type="submit">Send Inquiry</button>
-            <p class="contact-note">Static demo form. Connect your real endpoint later.</p>
+            <p class="contact-note" id="contact-form-note" aria-live="polite" data-static-form-note>
+              Static demo form. Submission is disabled until a real endpoint is connected.
+            </p>
           </form>
 
           <div class="map-panel reveal reveal-delay-1">
@@ -161,7 +167,9 @@
         <div class="footer-links">
           <a href="tel:+94769299976">Mobile: +94 76 9299976</a>
           <a href="tel:+94332221376">Tel: +94 33 2221376</a>
-          <span>No 272, Wathumulla RD, Asgiriya, Gampaha</span>
+          <a href="https://maps.google.com/?q=No.+272,+Wathumulla+Rd,+Asgiriya,+Gampaha" target="_blank" rel="noopener noreferrer">
+            No. 272, Wathumulla Rd, Asgiriya, Gampaha
+          </a>
         </div>
       </div>
     </div>

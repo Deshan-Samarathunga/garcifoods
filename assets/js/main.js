@@ -53,31 +53,51 @@ const syncHeaderState = () => {
 syncHeaderState();
 window.addEventListener("scroll", syncHeaderState, { passive: true });
 
-const slider = document.querySelector("[data-slider]");
+const sliders = Array.from(document.querySelectorAll("[data-slider]"));
 
-if (slider) {
+sliders.forEach((slider) => {
   const slides = Array.from(slider.querySelectorAll("[data-slide]"));
+
+  if (!slides.length) {
+    return;
+  }
+
   const dots = Array.from(slider.querySelectorAll("[data-dot]"));
   const controls = Array.from(slider.querySelectorAll("[data-direction]"));
-  let activeIndex = 0;
+  const interval = Number(slider.dataset.sliderInterval || 5500);
+  const initialIndex = slides.findIndex((slide) => slide.classList.contains("is-active"));
+  let activeIndex = initialIndex >= 0 ? initialIndex : 0;
   let timerId = null;
 
   const showSlide = (nextIndex) => {
     activeIndex = (nextIndex + slides.length) % slides.length;
 
     slides.forEach((slide, index) => {
-      slide.classList.toggle("is-active", index === activeIndex);
+      const isActive = index === activeIndex;
+      slide.classList.toggle("is-active", isActive);
+      slide.setAttribute("aria-hidden", isActive ? "false" : "true");
     });
 
     dots.forEach((dot, index) => {
-      dot.classList.toggle("is-active", index === activeIndex);
-      dot.setAttribute("aria-current", index === activeIndex ? "true" : "false");
+      const isActive = index === activeIndex;
+      dot.classList.toggle("is-active", isActive);
+      dot.setAttribute("aria-current", isActive ? "true" : "false");
     });
   };
 
-  const restartTimer = () => {
+  const stopTimer = () => {
     window.clearInterval(timerId);
-    timerId = window.setInterval(() => showSlide(activeIndex + 1), 5500);
+    timerId = null;
+  };
+
+  const restartTimer = () => {
+    stopTimer();
+
+    if (slides.length < 2 || interval <= 0) {
+      return;
+    }
+
+    timerId = window.setInterval(() => showSlide(activeIndex + 1), interval);
   };
 
   controls.forEach((control) => {
@@ -96,9 +116,35 @@ if (slider) {
     });
   });
 
-  showSlide(0);
+  slider.addEventListener("mouseenter", stopTimer);
+  slider.addEventListener("mouseleave", restartTimer);
+  slider.addEventListener("focusin", stopTimer);
+  slider.addEventListener("focusout", (event) => {
+    const nextFocusedElement = event.relatedTarget;
+
+    if (!(nextFocusedElement instanceof Node) || !slider.contains(nextFocusedElement)) {
+      restartTimer();
+    }
+  });
+
+  showSlide(activeIndex);
   restartTimer();
-}
+});
+
+const staticForms = Array.from(document.querySelectorAll("[data-static-form]"));
+
+staticForms.forEach((form) => {
+  const note = form.querySelector("[data-static-form-note]");
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    if (note) {
+      note.textContent = "Demo mode only. No message was sent because a real form endpoint is not connected yet.";
+      note.classList.add("is-demo-feedback");
+    }
+  });
+});
 
 const productModal = document.querySelector("#product-modal");
 
