@@ -7,6 +7,9 @@
   --green: #9eb857;
   --green-deep: #1e6a49;
   --accent: #d7ae52;
+  --font-body: "Manrope", sans-serif;
+  --font-display: "Cormorant Garamond", serif;
+  --font-accent: "Allura", cursive;
   --shadow: 0 22px 60px rgba(79, 41, 30, 0.14);
   --radius-xl: 40px;
   --radius-lg: 28px;
@@ -276,7 +279,7 @@ select {
 
 .brand img {
   width: auto;
-  height: 3.25rem;
+  height: 3.75rem;
 }
 
 .site-nav {
@@ -1252,7 +1255,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
   }
 
   .brand img {
-    height: 2.85rem;
+    height: 3.15rem;
   }
 
   .site-nav {
@@ -3258,4 +3261,119 @@ body {
   .founder-grid {
     padding: 1rem;
   }
+}
+
+/* Typography system */
+body,
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-body);
+}
+
+body {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.hero-copy h1,
+.page-hero h1,
+.section-heading h2,
+.feature-copy h2,
+.product-copy h3,
+.slide-copy h3,
+.founder-copy h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.info-card h3,
+.contact-card h3,
+.content-panel h2,
+.cta-panel h2,
+.map-copy h2,
+.catalog-card-body h3,
+.product-modal-body h2,
+.processing-copy h2,
+.site-footer h3 {
+  font-family: var(--font-body);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.eyebrow,
+.slide-kicker,
+.site-preloader-label,
+.form-field span,
+.catalog-chip-list span,
+.gallery-item figcaption,
+.designation,
+.product-nav a,
+.site-nav a {
+  font-family: var(--font-body);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  line-height: 1.15;
+  color: var(--green-deep);
+}
+
+.section-heading.light .eyebrow {
+  color: #f8e1a8;
+}
+
+.btn,
+.review-link,
+.text-link,
+.footer-links a {
+  font-family: var(--font-body);
+}
+
+.hero-copy p:not(.eyebrow),
+.page-hero p:not(.eyebrow),
+.feature-copy p,
+.product-copy p,
+.slide-copy p,
+.promise-card p,
+.founder-copy p,
+.info-card p,
+.contact-card p,
+.content-panel p,
+.cta-panel p,
+.map-copy p:not(.eyebrow),
+.catalog-card-body p,
+.contact-note,
+.contact-helper,
+.footer-brand p,
+.footer-note,
+.product-modal-list li {
+  font-family: var(--font-body);
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+
+.form-control,
+.form-field input,
+.form-field textarea {
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.signature {
+  font-family: var(--font-accent);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
 }
