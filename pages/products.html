@@ -49,7 +49,9 @@
             class="catalog-card tone-jackfruit reveal"
             role="button"
             tabindex="0"
+            aria-haspopup="dialog"
             aria-controls="product-modal"
+            aria-expanded="false"
             data-product-modal-trigger
             data-title="Jackfruit Flour - Powder Variant"
             data-image="../assets/images/products/jackfruit-flour.png"
@@ -73,7 +75,9 @@
             class="catalog-card tone-seed reveal reveal-delay-1"
             role="button"
             tabindex="0"
+            aria-haspopup="dialog"
             aria-controls="product-modal"
+            aria-expanded="false"
             data-product-modal-trigger
             data-title="Jackfruit Seed Flour - Powder Variant"
             data-image="../assets/images/products/jackfruit-seed-flour.png"
@@ -97,7 +101,9 @@
             class="catalog-card tone-banana reveal reveal-delay-2"
             role="button"
             tabindex="0"
+            aria-haspopup="dialog"
             aria-controls="product-modal"
+            aria-expanded="false"
             data-product-modal-trigger
             data-title="Green Banana Flour - Powder Variant"
             data-image="../assets/images/products/green-banana-flour.png"
@@ -120,27 +126,13 @@
       </div>
     </section>
 
-    <div class="product-modal" id="product-modal" hidden>
-      <div class="product-modal-overlay" data-product-modal-close></div>
-      <section class="product-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
-        <button class="product-modal-close" type="button" aria-label="Close product details" data-product-modal-close>&times;</button>
-        <div class="product-modal-media">
-          <img id="product-modal-image" src="../assets/images/products/jackfruit-flour.png" alt="Selected Garci product" decoding="async">
-        </div>
-        <div class="product-modal-body">
-          <h2 id="product-modal-title">Product Details</h2>
-          <ul class="product-modal-list" id="product-modal-features"></ul>
-          <a class="btn btn-primary product-modal-cta" href="contact.html">Request Product Specifications</a>
-        </div>
-      </section>
-    </div>
   </main>
 
   <footer class="site-footer">
     <div class="container footer-grid">
       <div class="footer-brand">
         <img src="../assets/images/brand/logo-garci.png" alt="Garci logo" loading="lazy" decoding="async">
-        <p>Pure Sri Lankan flour products presented through a clean multi-page static website.</p>
+        <p>Pure Sri Lankan jackfruit and banana flour products, rooted in honest ingredients and natural nutrition.</p>
       </div>
 
       <div>
@@ -173,8 +165,28 @@
         </div>
       </div>
     </div>
-    <p class="footer-note">Update content and media directly in these files before deployment.</p>
+    <p class="footer-note">Garci (Pvt) Ltd. All rights reserved.</p>
   </footer>
+
+  <div class="product-modal" id="product-modal" aria-hidden="true" hidden>
+    <div class="product-modal-overlay" data-product-modal-close></div>
+    <section
+      class="product-modal-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="product-modal-title"
+      tabindex="-1">
+      <button class="product-modal-close" type="button" aria-label="Close product details" data-product-modal-close>&times;</button>
+      <div class="product-modal-media">
+        <img id="product-modal-image" src="../assets/images/products/jackfruit-flour.png" alt="Selected Garci product" decoding="async">
+      </div>
+      <div class="product-modal-body">
+        <h2 id="product-modal-title">Product Details</h2>
+        <ul class="product-modal-list" id="product-modal-features"></ul>
+        <a class="btn btn-primary product-modal-cta" href="contact.html">Request Product Specifications</a>
+      </div>
+    </section>
+  </div>
 
   <script src="../assets/js/main.js"></script>
 </body>

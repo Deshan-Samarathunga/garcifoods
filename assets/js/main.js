@@ -204,20 +204,104 @@ if (heroVideos.length) {
 const reviewWidget = document.querySelector("[data-review-widget]");
 
 if (reviewWidget) {
+  let reviewLoadTimeoutId = null;
+
+  const getOrCreateReviewFallback = () => {
+    const existingFallback = reviewWidget.querySelector("[data-review-fallback]");
+
+    if (existingFallback) {
+      return existingFallback;
+    }
+
+    const fallback = document.createElement("div");
+    const message = document.createElement("p");
+    const link = document.createElement("a");
+
+    fallback.className = "review-fallback";
+    fallback.dataset.reviewFallback = "";
+    fallback.hidden = true;
+
+    message.textContent = "Reviews are temporarily unavailable. Contact Garci directly while the live widget reconnects.";
+    link.className = "btn btn-secondary";
+    link.href = "pages/contact.html";
+    link.textContent = "Contact Garci";
+
+    fallback.append(message, link);
+    reviewWidget.append(fallback);
+    return fallback;
+  };
+
+  const reviewFallback = getOrCreateReviewFallback();
+
+  const setReviewFallbackVisible = (visible) => {
+    reviewFallback.hidden = !visible;
+  };
+
+  const clearReviewLoadTimeout = () => {
+    if (reviewLoadTimeoutId !== null) {
+      window.clearTimeout(reviewLoadTimeoutId);
+      reviewLoadTimeoutId = null;
+    }
+  };
+
+  const hasReviewWidgetRendered = () => {
+    return Boolean(reviewWidget.querySelector(".ti-widget-container, .ti-reviews-container, .ti-review-item"));
+  };
+
+  if ("MutationObserver" in window) {
+    const reviewMutationObserver = new MutationObserver(() => {
+      if (!hasReviewWidgetRendered()) {
+        return;
+      }
+
+      clearReviewLoadTimeout();
+      reviewWidget.dataset.widgetLoaded = "true";
+      setReviewFallbackVisible(false);
+    });
+
+    reviewMutationObserver.observe(reviewWidget, { childList: true, subtree: true });
+  }
+
+  const finalizeReviewWidgetLoad = () => {
+    const widgetRendered = hasReviewWidgetRendered();
+
+    clearReviewLoadTimeout();
+    reviewWidget.dataset.widgetLoaded = widgetRendered ? "true" : "false";
+    setReviewFallbackVisible(!widgetRendered);
+  };
+
+  const queueReviewWidgetVerification = () => {
+    clearReviewLoadTimeout();
+    reviewLoadTimeoutId = window.setTimeout(finalizeReviewWidgetLoad, 3200);
+  };
+
   const loadReviewWidget = () => {
-    if (reviewWidget.dataset.widgetLoaded === "true") {
+    const widgetState = reviewWidget.dataset.widgetLoaded;
+
+    if (widgetState === "loading" || widgetState === "true") {
       return;
     }
 
-    reviewWidget.dataset.widgetLoaded = "true";
+    reviewWidget.dataset.widgetLoaded = "loading";
+    setReviewFallbackVisible(false);
 
-    if (document.querySelector('script[src^="https://cdn.trustindex.io/loader.js"]')) {
+    const existingScript = document.querySelector('script[src^="https://cdn.trustindex.io/loader.js"]');
+
+    if (existingScript) {
+      queueReviewWidgetVerification();
       return;
     }
 
     const script = document.createElement("script");
     script.src = "https://cdn.trustindex.io/loader.js?ver=1";
     script.async = true;
+    script.addEventListener("load", queueReviewWidgetVerification, { once: true });
+    script.addEventListener("error", () => {
+      clearReviewLoadTimeout();
+      reviewWidget.dataset.widgetLoaded = "false";
+      setReviewFallbackVisible(true);
+      script.remove();
+    }, { once: true });
     document.body.append(script);
   };
 
@@ -466,18 +550,56 @@ sliders.forEach((slider) => {
   restartTimer();
 });
 
-const staticForms = Array.from(document.querySelectorAll("[data-static-form]"));
+const contactForms = Array.from(document.querySelectorAll("[data-contact-form]"));
 
-staticForms.forEach((form) => {
-  const note = form.querySelector("[data-static-form-note]");
+const setContactFormFeedback = (note, message, status) => {
+  if (!note) {
+    return;
+  }
+
+  note.textContent = message;
+  note.classList.remove("is-success", "is-error");
+
+  if (status) {
+    note.classList.add(`is-${status}`);
+  }
+};
+
+contactForms.forEach((form) => {
+  const note = form.querySelector("[data-contact-form-note]");
+  const whatsappNumber = (form.dataset.contactWhatsapp || "").replace(/\D/g, "");
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    if (note) {
-      note.textContent = "Demo mode only. No message was sent because a real form endpoint is not connected yet.";
-      note.classList.add("is-demo-feedback");
+    if (!whatsappNumber) {
+      setContactFormFeedback(
+        note,
+        "WhatsApp contact details are unavailable right now. Please use the phone numbers above.",
+        "error"
+      );
+      return;
     }
+
+    const formData = new FormData(form);
+    const name = String(formData.get("name") || "").trim();
+    const email = String(formData.get("email") || "").trim();
+    const subject = String(formData.get("subject") || "").trim() || "Product inquiry";
+    const message = String(formData.get("message") || "").trim();
+    const whatsappUrl = new URL(`https://wa.me/${whatsappNumber}`);
+    const inquiryLines = [
+      "Hello Garci, I would like to make an inquiry.",
+      "",
+      `Name: ${name}`,
+      `Reply email: ${email}`,
+      `Subject: ${subject}`,
+      "Message:",
+      message
+    ];
+
+    whatsappUrl.searchParams.set("text", inquiryLines.join("\n"));
+    setContactFormFeedback(note, "Opening WhatsApp with your inquiry...", "success");
+    window.location.assign(whatsappUrl.toString());
   });
 });
 
@@ -486,10 +608,21 @@ const productModal = document.querySelector("#product-modal");
 if (productModal) {
   const productTriggers = Array.from(document.querySelectorAll("[data-product-modal-trigger]"));
   const closeControls = Array.from(productModal.querySelectorAll("[data-product-modal-close]"));
+  const modalDialog = productModal.querySelector(".product-modal-dialog");
   const modalTitle = productModal.querySelector("#product-modal-title");
   const modalImage = productModal.querySelector("#product-modal-image");
   const modalFeatures = productModal.querySelector("#product-modal-features");
+  const focusableSelector = [
+    "a[href]",
+    "button:not([disabled])",
+    "input:not([disabled]):not([type='hidden'])",
+    "select:not([disabled])",
+    "textarea:not([disabled])",
+    "[tabindex]:not([tabindex='-1'])"
+  ].join(", ");
+  const backgroundState = new Map();
   let previousFocusedElement = null;
+  let activeTrigger = null;
 
   const setModalFeatures = (featureList) => {
     if (!modalFeatures) {
@@ -503,6 +636,101 @@ if (productModal) {
       item.textContent = feature;
       modalFeatures.append(item);
     });
+  };
+
+  const getFocusableModalElements = () => {
+    return Array.from(productModal.querySelectorAll(focusableSelector)).filter((element) => {
+      return element instanceof HTMLElement && !element.closest("[hidden]");
+    });
+  };
+
+  const setBackgroundInert = (isInert) => {
+    const backgroundElements = Array.from(body.children).filter((element) => element !== productModal);
+
+    backgroundElements.forEach((element) => {
+      if (!(element instanceof HTMLElement)) {
+        return;
+      }
+
+      if (isInert) {
+        if (!backgroundState.has(element)) {
+          backgroundState.set(element, {
+            ariaHidden: element.getAttribute("aria-hidden"),
+            inert: "inert" in element ? element.inert : undefined
+          });
+        }
+
+        element.setAttribute("aria-hidden", "true");
+
+        if ("inert" in element) {
+          element.inert = true;
+        }
+
+        return;
+      }
+
+      const previousState = backgroundState.get(element);
+
+      if (!previousState) {
+        return;
+      }
+
+      if (previousState.ariaHidden === null) {
+        element.removeAttribute("aria-hidden");
+      } else {
+        element.setAttribute("aria-hidden", previousState.ariaHidden);
+      }
+
+      if ("inert" in element && typeof previousState.inert === "boolean") {
+        element.inert = previousState.inert;
+      }
+    });
+
+    if (!isInert) {
+      backgroundState.clear();
+    }
+  };
+
+  const trapProductModalFocus = (event) => {
+    if (productModal.hidden) {
+      return;
+    }
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeProductModal();
+      return;
+    }
+
+    if (event.key !== "Tab") {
+      return;
+    }
+
+    const focusableElements = getFocusableModalElements();
+
+    if (!focusableElements.length) {
+      event.preventDefault();
+      modalDialog?.focus();
+      return;
+    }
+
+    const firstFocusableElement = focusableElements[0];
+    const lastFocusableElement = focusableElements[focusableElements.length - 1];
+    const activeElement = document.activeElement;
+
+    if (event.shiftKey) {
+      if (activeElement === firstFocusableElement || !productModal.contains(activeElement)) {
+        event.preventDefault();
+        lastFocusableElement.focus();
+      }
+
+      return;
+    }
+
+    if (activeElement === lastFocusableElement || !productModal.contains(activeElement)) {
+      event.preventDefault();
+      firstFocusableElement.focus();
+    }
   };
 
   const openProductModal = (trigger) => {
@@ -525,10 +753,16 @@ if (productModal) {
 
     setModalFeatures(features);
     previousFocusedElement = document.activeElement;
+    activeTrigger = trigger;
+    activeTrigger.setAttribute("aria-expanded", "true");
     productModal.hidden = false;
+    productModal.setAttribute("aria-hidden", "false");
     body.classList.add("product-modal-open");
     closeNavigation();
-    productModal.querySelector(".product-modal-close")?.focus();
+    setBackgroundInert(true);
+
+    const firstFocusableElement = getFocusableModalElements()[0];
+    (firstFocusableElement || modalDialog)?.focus();
   };
 
   const closeProductModal = () => {
@@ -537,11 +771,19 @@ if (productModal) {
     }
 
     productModal.hidden = true;
+    productModal.setAttribute("aria-hidden", "true");
     body.classList.remove("product-modal-open");
+    setBackgroundInert(false);
+
+    if (activeTrigger instanceof HTMLElement) {
+      activeTrigger.setAttribute("aria-expanded", "false");
+    }
 
     if (previousFocusedElement instanceof HTMLElement) {
       previousFocusedElement.focus();
     }
+
+    activeTrigger = null;
   };
 
   productTriggers.forEach((trigger) => {
@@ -558,9 +800,5 @@ if (productModal) {
     control.addEventListener("click", closeProductModal);
   });
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closeProductModal();
-    }
-  });
+  document.addEventListener("keydown", trapProductModalFocus);
 }

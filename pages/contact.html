@@ -70,7 +70,13 @@
     <section class="section contact-main-section">
       <div class="container">
         <div class="contact-layout">
-          <form class="contact-form reveal" action="#" method="post" data-static-form aria-describedby="contact-form-note">
+          <form
+            class="contact-form reveal"
+            action="#"
+            method="post"
+            data-contact-form
+            data-contact-whatsapp="+94769299976"
+            aria-describedby="contact-form-helper contact-form-note">
             <div class="form-grid">
               <label class="form-field">
                 <span>Name</span>
@@ -93,8 +99,16 @@
               <textarea name="message" rows="6" placeholder="Tell us what you need" required></textarea>
             </label>
 
-            <button class="btn btn-primary" type="submit">Send Inquiry</button>
-            <p class="contact-note" id="contact-form-note" data-static-form-note aria-live="polite"></p>
+            <p class="contact-helper" id="contact-form-helper">
+              We'll pre-fill your inquiry in WhatsApp using Garci's mobile number.
+            </p>
+            <div class="contact-actions">
+              <button class="btn btn-primary" type="submit">Send on WhatsApp</button>
+              <a class="btn btn-secondary" href="https://wa.me/94769299976" target="_blank" rel="noopener noreferrer">
+                Open WhatsApp Directly
+              </a>
+            </div>
+            <p class="contact-note" id="contact-form-note" data-contact-form-note aria-live="polite"></p>
           </form>
 
           <div class="map-panel reveal reveal-delay-1">
@@ -124,7 +138,7 @@
     <div class="container footer-grid">
       <div class="footer-brand">
         <img src="../assets/images/brand/logo-garci.png" alt="Garci logo" loading="lazy" decoding="async">
-        <p>Pure Sri Lankan flour products presented through a clean multi-page static website.</p>
+        <p>Pure Sri Lankan jackfruit and banana flour products, rooted in honest ingredients and natural nutrition.</p>
       </div>
 
       <div>
@@ -157,7 +171,7 @@
         </div>
       </div>
     </div>
-    <p class="footer-note">Update content and media directly in these files before deployment.</p>
+    <p class="footer-note">Garci (Pvt) Ltd. All rights reserved.</p>
   </footer>
 
   <script src="../assets/js/main.js"></script>
