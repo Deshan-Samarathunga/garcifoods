@@ -10,6 +10,11 @@
   --font-body: "Manrope", sans-serif;
   --font-display: "Cormorant Garamond", serif;
   --font-accent: "Allura", cursive;
+  --header-height: 5.35rem;
+  --header-height-mobile: 4.85rem;
+  --navbar-logo-size: 4.5rem;
+  --navbar-logo-size-mobile: 3.7rem;
+  --focus-ring: 0 0 0 3px rgba(30, 106, 73, 0.16);
   --shadow: 0 22px 60px rgba(79, 41, 30, 0.14);
   --radius-xl: 40px;
   --radius-lg: 28px;
@@ -266,7 +271,7 @@ select {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 5rem;
+  min-height: 5.35rem;
   gap: 1rem;
 }
 
@@ -279,7 +284,7 @@ select {
 
 .brand img {
   width: auto;
-  height: 3.75rem;
+  height: 4.5rem;
 }
 
 .site-nav {
@@ -1255,7 +1260,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
   }
 
   .brand img {
-    height: 3.15rem;
+    height: 3.7rem;
   }
 
   .site-nav {
@@ -1374,7 +1379,7 @@ body {
 }
 
 .header-inner {
-  min-height: 4.75rem;
+  min-height: 5rem;
 }
 
 .site-nav a {
@@ -3376,4 +3381,89 @@ body {
   font-weight: 400;
   letter-spacing: 0;
   text-transform: none;
+}
+
+/* Consistency pass */
+.header-inner {
+  min-height: var(--header-height);
+}
+
+.brand img {
+  height: var(--navbar-logo-size);
+  aspect-ratio: 2676 / 1600;
+  object-fit: contain;
+}
+
+.page-main {
+  padding-top: var(--header-height);
+}
+
+.site-nav a:not(.btn),
+.text-link,
+.footer-links a {
+  transition: color 180ms ease, opacity 180ms ease;
+}
+
+.text-link:hover,
+.text-link:focus-visible {
+  color: var(--accent);
+}
+
+.site-footer .footer-links a {
+  line-height: 1.6;
+  opacity: 0.92;
+}
+
+.site-footer .footer-links a:hover,
+.site-footer .footer-links a:focus-visible {
+  color: #f8e1a8;
+  opacity: 1;
+}
+
+.btn,
+.review-link {
+  border-radius: 12px;
+}
+
+.form-control,
+.form-field input,
+.form-field textarea {
+  box-shadow: none;
+}
+
+.form-control::placeholder,
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: #7b6d63;
+  opacity: 1;
+}
+
+.form-control:focus,
+.form-field input:focus,
+.form-field textarea:focus {
+  box-shadow: var(--focus-ring);
+}
+
+@media (max-width: 900px) {
+  .header-inner {
+    min-height: var(--header-height-mobile);
+  }
+
+  .brand img {
+    height: var(--navbar-logo-size-mobile);
+  }
+
+  .page-main {
+    padding-top: var(--header-height-mobile);
+  }
+
+  .site-nav {
+    top: calc(var(--header-height-mobile) + 0.75rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .site-nav {
+    top: calc(var(--header-height-mobile) + 0.5rem);
+  }
 }
