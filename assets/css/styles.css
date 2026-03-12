@@ -245,6 +245,7 @@ select {
   position: sticky;
   top: 0;
   z-index: 50;
+  padding: 0;
   background: transparent;
   backdrop-filter: blur(0);
   border-bottom: 1px solid transparent;
@@ -264,6 +265,13 @@ select {
   justify-content: space-between;
   min-height: 5rem;
   gap: 1rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 .brand img {
@@ -292,6 +300,10 @@ select {
   border: 0;
   background: none;
   color: var(--heading);
+}
+
+.nav-toggle:focus {
+  box-shadow: none;
 }
 
 .nav-toggle span {
@@ -355,10 +367,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
 
 .hero-grid {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
   align-items: center;
-  gap: clamp(2rem, 5vw, 4rem);
   z-index: 1;
 }
 
@@ -483,10 +492,6 @@ body.nav-open .nav-toggle span:nth-child(3) {
 }
 
 .feature-card {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 1.5rem 2rem;
-  align-items: center;
   background: var(--surface);
   border-radius: var(--radius-xl);
   padding: 2rem;
@@ -626,8 +631,6 @@ body.nav-open .nav-toggle span:nth-child(3) {
 .nutrition-slide {
   position: relative;
   display: none;
-  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr);
-  gap: clamp(1.5rem, 3vw, 2.75rem);
   align-items: center;
   padding: clamp(1.6rem, 3vw, 2.15rem);
   background: rgba(255, 251, 246, 0.94);
@@ -636,7 +639,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
 }
 
 .nutrition-slide.is-active {
-  display: grid;
+  display: flex;
   animation: fadeUp 380ms ease;
 }
 
@@ -891,9 +894,6 @@ body.nav-open .nav-toggle span:nth-child(3) {
 }
 
 .founder-grid {
-  display: grid;
-  grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr);
-  gap: clamp(1.5rem, 4vw, 3rem);
   align-items: center;
 }
 
@@ -958,9 +958,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
 }
 
 .footer-grid {
-  display: grid;
-  grid-template-columns: 1.15fr repeat(3, minmax(0, 0.8fr));
-  gap: 2rem;
+  align-items: start;
 }
 
 .footer-brand img {
@@ -1031,12 +1029,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
 }
 
 @media (max-width: 980px) {
-  .hero-grid,
-  .feature-card,
-  .product-card,
-  .founder-grid,
-  .nutrition-slide,
-  .footer-grid {
+  .product-card {
     grid-template-columns: 1fr;
   }
 
@@ -1401,10 +1394,6 @@ body {
 .hero::before,
 .hero::after {
   display: none;
-}
-
-.hero-grid {
-  gap: clamp(2rem, 4vw, 3rem);
 }
 
 .hero-copy h1 {
@@ -2092,9 +2081,6 @@ body.is-loading .hero-video-bg {
 
 .content-split,
 .contact-layout {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.25rem;
   align-items: start;
 }
 
@@ -2135,12 +2121,6 @@ body.is-loading .hero-video-bg {
 
 .products-catalog {
   padding-top: clamp(1.8rem, 4vw, 2.8rem);
-}
-
-.catalog-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
 }
 
 .catalog-card {
@@ -2525,12 +2505,6 @@ body.product-modal-open {
   min-width: 12.5rem;
 }
 
-.contact-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
 .contact-details-section {
   padding-bottom: 0;
 }
@@ -2539,10 +2513,8 @@ body.product-modal-open {
   padding-top: clamp(1.5rem, 3vw, 2.5rem);
 }
 
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+.form-grid .form-field {
+  margin-bottom: 0;
 }
 
 .form-field {
@@ -2859,8 +2831,7 @@ body {
 }
 
 .home-page .hero-grid {
-  grid-template-columns: 1fr;
-  justify-items: center;
+  justify-content: center;
 }
 
 .home-page .hero-copy {
@@ -2903,15 +2874,8 @@ body {
 }
 
 @media (max-width: 980px) {
-  .info-grid,
-  .contact-grid,
-  .content-split,
-  .contact-layout {
+  .info-grid {
     grid-template-columns: 1fr;
-  }
-
-  .catalog-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .processing-mini-grid {
@@ -2932,12 +2896,10 @@ body {
 }
 
 @media (max-width: 680px) {
-  .form-grid,
   .cta-panel {
     grid-template-columns: 1fr;
   }
 
-  .catalog-grid,
   .processing-mini-grid {
     grid-template-columns: 1fr;
   }
@@ -3265,7 +3227,6 @@ body {
 }
 
 .founder-grid {
-  gap: clamp(1.4rem, 3vw, 2.5rem);
   padding: clamp(1.4rem, 3vw, 2rem);
   background: var(--surface);
   border: 1px solid var(--border);
@@ -3290,7 +3251,6 @@ body {
 @media (max-width: 680px) {
   .founder-grid {
     padding: 1.2rem;
-    gap: 1.2rem;
   }
 }
 

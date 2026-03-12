@@ -11,6 +11,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="icon" type="image/png" href="assets/images/brand/favicon.png">
   <noscript>
@@ -38,20 +39,20 @@
     </div>
   </div>
 
-  <header class="site-header" id="top">
+  <header class="site-header navbar navbar-expand-lg" id="top">
     <div class="container header-inner">
-      <a class="brand" href="index.html" aria-label="Garci home">
+      <a class="brand navbar-brand" href="index.html" aria-label="Garci home">
         <img src="assets/images/brand/logo-garci.png" alt="Garci logo">
       </a>
 
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"
+      <button class="nav-toggle navbar-toggler" type="button" aria-expanded="false" aria-controls="site-nav"
         aria-label="Toggle navigation">
         <span></span>
         <span></span>
         <span></span>
       </button>
 
-      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+      <nav class="site-nav ms-lg-auto" id="site-nav" aria-label="Primary navigation">
         <a class="is-active" href="index.html" aria-current="page">Home</a>
         <a href="pages/about.html">About Us</a>
         <a href="pages/products.html">Products</a>
@@ -67,39 +68,52 @@
           <source data-src="assets/videos/garci-hero-background.mp4" type="video/mp4">
         </video>
       </div>
-      <div class="container hero-grid">
-        <div class="hero-copy reveal reveal-delay-1">
-          <p class="eyebrow">Sri Lankan Origin</p>
-          <div class="hero-copy-body">
-            <h1>Nature's Gentle Nutrition</h1>
-            <p>
-              To provide the world with authentic, healthy foods that celebrate the natural goodness and humble heritage
-              of Sri Lanka.
-            </p>
-          </div>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="pages/products.html">View Products</a>
-            <a class="btn btn-secondary" href="pages/contact.html">Contact Us</a>
+      <div class="container">
+        <div class="hero-grid row justify-content-center gx-xl-5 gy-4">
+          <div class="col-12 col-xl-8">
+            <div class="hero-copy reveal reveal-delay-1">
+              <p class="eyebrow">Sri Lankan Origin</p>
+              <div class="hero-copy-body">
+                <h1>Nature's Gentle Nutrition</h1>
+                <p>
+                  To provide the world with authentic, healthy foods that celebrate the natural goodness and humble heritage
+                  of Sri Lanka.
+                </p>
+              </div>
+              <div class="hero-actions">
+                <a class="btn btn-primary" href="pages/products.html">View Products</a>
+                <a class="btn btn-secondary" href="pages/contact.html">Contact Us</a>
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
     </section>
 
     <section class="feature-strip">
-      <div class="container feature-card">
-        <div class="origin-icon" aria-hidden="true"></div>
-        <div class="feature-copy">
-          <h2>Structured flour range for clean-label nutrition</h2>
-          <p>
-            Built around ingredient clarity, Sri Lankan sourcing, and a simple product line that is
-            easy to present across retail, export, and food service channels.
-          </p>
-        </div>
-        <div class="feature-pills" aria-label="Key product features">
-          <span>Clean Ingredients</span>
-          <span>Export Friendly</span>
-          <span>Natural Processing</span>
+      <div class="container">
+        <div class="feature-card">
+          <div class="row align-items-center g-4">
+            <div class="col-12 col-lg-auto d-flex justify-content-center justify-content-lg-start">
+              <div class="origin-icon" aria-hidden="true"></div>
+            </div>
+            <div class="col-12 col-lg">
+              <div class="feature-copy text-center text-lg-start">
+                <h2>Structured flour range for clean-label nutrition</h2>
+                <p>
+                  Built around ingredient clarity, Sri Lankan sourcing, and a simple product line that is
+                  easy to present across retail, export, and food service channels.
+                </p>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="feature-pills" aria-label="Key product features">
+                <span>Clean Ingredients</span>
+                <span>Export Friendly</span>
+                <span>Natural Processing</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -117,12 +131,14 @@
           <button class="slider-control prev" type="button" data-direction="-1" aria-label="Previous slide">&#10094;</button>
 
           <div class="slide-track">
-            <article class="nutrition-slide is-active tone-jackfruit" data-slide>
-              <div class="slide-image-frame">
-                <img src="assets/images/products/jackfruit-flour.png" alt="Garci jackfruit flour retail pack"
-                  width="900" height="883" decoding="async">
+            <article class="nutrition-slide is-active tone-jackfruit row g-4 g-xl-5" data-slide>
+              <div class="col-12 col-lg-5">
+                <div class="slide-image-frame">
+                  <img src="assets/images/products/jackfruit-flour.png" alt="Garci jackfruit flour retail pack"
+                    width="900" height="883" decoding="async">
+                </div>
               </div>
-              <div class="slide-copy">
+              <div class="col-12 col-lg-7 slide-copy">
                 <p class="slide-kicker">Jackfruit Flour</p>
                 <h3>Versatile and easy to place across bakery and daily cooking</h3>
                 <p>
@@ -142,12 +158,14 @@
               </div>
             </article>
 
-            <article class="nutrition-slide tone-seed" data-slide>
-              <div class="slide-image-frame">
-                <img data-src="assets/images/products/jackfruit-seed-flour.png"
-                  alt="Garci jackfruit seed flour retail pack" width="900" height="883" decoding="async">
+            <article class="nutrition-slide tone-seed row g-4 g-xl-5" data-slide>
+              <div class="col-12 col-lg-5">
+                <div class="slide-image-frame">
+                  <img data-src="assets/images/products/jackfruit-seed-flour.png"
+                    alt="Garci jackfruit seed flour retail pack" width="900" height="883" decoding="async">
+                </div>
               </div>
-              <div class="slide-copy">
+              <div class="col-12 col-lg-7 slide-copy">
                 <p class="slide-kicker">Jackfruit Seed Flour</p>
                 <h3>Functional depth for savory mixes and nutrition-led concepts</h3>
                 <p>
@@ -167,12 +185,14 @@
               </div>
             </article>
 
-            <article class="nutrition-slide tone-banana" data-slide>
-              <div class="slide-image-frame">
-                <img data-src="assets/images/products/green-banana-flour.png" alt="Garci green banana flour retail pack"
-                  width="900" height="883" decoding="async">
+            <article class="nutrition-slide tone-banana row g-4 g-xl-5" data-slide>
+              <div class="col-12 col-lg-5">
+                <div class="slide-image-frame">
+                  <img data-src="assets/images/products/green-banana-flour.png" alt="Garci green banana flour retail pack"
+                    width="900" height="883" decoding="async">
+                </div>
               </div>
-              <div class="slide-copy">
+              <div class="col-12 col-lg-7 slide-copy">
                 <p class="slide-kicker">Green Banana Flour</p>
                 <h3>Clean-label banana flour with modern shelf appeal</h3>
                 <p>
@@ -262,46 +282,49 @@
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-grid">
-      <div class="footer-brand">
-        <img src="assets/images/brand/logo-garci.png" alt="Garci logo" loading="lazy" decoding="async">
-        <p>Pure Sri Lankan jackfruit and banana flour products, rooted in honest ingredients and natural nutrition.</p>
-      </div>
-
-      <div>
-        <h3>Pages</h3>
-        <div class="footer-links">
-          <a href="index.html">Home</a>
-          <a href="pages/about.html">About Us</a>
-          <a href="pages/products.html">Products</a>
-          <a href="pages/contact.html">Contact Us</a>
+    <div class="container">
+      <div class="footer-grid row g-4">
+        <div class="col-12 col-lg-6 col-xl-4 footer-brand">
+          <img src="assets/images/brand/logo-garci.png" alt="Garci logo" loading="lazy" decoding="async">
+          <p>Pure Sri Lankan jackfruit and banana flour products, rooted in honest ingredients and natural nutrition.</p>
         </div>
-      </div>
 
-      <div>
-        <h3>Contact</h3>
-        <div class="footer-links">
-          <a href="tel:+94769299976">Mobile: +94 76 9299976</a>
-          <a href="tel:+94332221376">Tel: +94 33 2221376</a>
-          <a href="https://maps.google.com/?q=No.+272,+Wathumulla+Rd,+Asgiriya,+Gampaha" target="_blank"
-            rel="noopener noreferrer">
-            No. 272, Wathumulla Rd, Asgiriya, Gampaha
-          </a>
+        <div class="col-12 col-sm-6 col-lg-2 col-xl">
+          <h3>Pages</h3>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="pages/about.html">About Us</a>
+            <a href="pages/products.html">Products</a>
+            <a href="pages/contact.html">Contact Us</a>
+          </div>
         </div>
-      </div>
 
-      <div>
-        <h3>Social</h3>
-        <div class="footer-links">
-          <a href="https://www.facebook.com/garcifoods/" target="_blank" rel="noopener noreferrer">Facebook</a>
-          <a href="https://www.linkedin.com/company/garcifoods" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a href="https://www.instagram.com/garcifoods/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <div class="col-12 col-sm-6 col-lg-2 col-xl">
+          <h3>Contact</h3>
+          <div class="footer-links">
+            <a href="tel:+94769299976">Mobile: +94 76 9299976</a>
+            <a href="tel:+94332221376">Tel: +94 33 2221376</a>
+            <a href="https://maps.google.com/?q=No.+272,+Wathumulla+Rd,+Asgiriya,+Gampaha" target="_blank"
+              rel="noopener noreferrer">
+              No. 272, Wathumulla Rd, Asgiriya, Gampaha
+            </a>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-2 col-xl">
+          <h3>Social</h3>
+          <div class="footer-links">
+            <a href="https://www.facebook.com/garcifoods/" target="_blank" rel="noopener noreferrer">Facebook</a>
+            <a href="https://www.linkedin.com/company/garcifoods" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://www.instagram.com/garcifoods/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          </div>
         </div>
       </div>
     </div>
     <p class="footer-note">Garci (Pvt) Ltd. All rights reserved.</p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 
