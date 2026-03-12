@@ -567,15 +567,15 @@ const setContactFormFeedback = (note, message, status) => {
 
 contactForms.forEach((form) => {
   const note = form.querySelector("[data-contact-form-note]");
-  const whatsappNumber = (form.dataset.contactWhatsapp || "").replace(/\D/g, "");
+  const contactEmail = String(form.dataset.contactEmail || "").trim();
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    if (!whatsappNumber) {
+    if (!contactEmail) {
       setContactFormFeedback(
         note,
-        "WhatsApp contact details are unavailable right now. Please use the phone numbers above.",
+        "Email contact details are unavailable right now. Please use the phone numbers above.",
         "error"
       );
       return;
@@ -586,20 +586,21 @@ contactForms.forEach((form) => {
     const email = String(formData.get("email") || "").trim();
     const subject = String(formData.get("subject") || "").trim() || "Product inquiry";
     const message = String(formData.get("message") || "").trim();
-    const whatsappUrl = new URL(`https://wa.me/${whatsappNumber}`);
     const inquiryLines = [
       "Hello Garci, I would like to make an inquiry.",
       "",
-      `Name: ${name}`,
-      `Reply email: ${email}`,
+      `Name: ${name || "Not provided"}`,
+      `Reply email: ${email || "Not provided"}`,
       `Subject: ${subject}`,
       "Message:",
-      message
+      message || "Not provided"
     ];
+    const mailtoQuery = `subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+      inquiryLines.join("\n")
+    )}`;
 
-    whatsappUrl.searchParams.set("text", inquiryLines.join("\n"));
-    setContactFormFeedback(note, "Opening WhatsApp with your inquiry...", "success");
-    window.location.assign(whatsappUrl.toString());
+    setContactFormFeedback(note, "Opening your email app...", "success");
+    window.location.assign(`mailto:${contactEmail}?${mailtoQuery}`);
   });
 });
 
