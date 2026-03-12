@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="bgTitle">
+  <title id="bgTitle">Abstract tropical fruit background</title>
+  <rect width="1600" height="900" fill="#1f3f2d"/>
+  <g opacity="0.9">
+    <ellipse cx="190" cy="220" rx="210" ry="120" fill="#365f3a"/>
+    <ellipse cx="560" cy="150" rx="240" ry="140" fill="#274d2f"/>
+    <ellipse cx="980" cy="210" rx="230" ry="130" fill="#3a6f43"/>
+    <ellipse cx="1320" cy="180" rx="220" ry="124" fill="#305a36"/>
+    <ellipse cx="300" cy="620" rx="220" ry="128" fill="#305a36"/>
+    <ellipse cx="720" cy="640" rx="250" ry="136" fill="#3a6f43"/>
+    <ellipse cx="1160" cy="610" rx="230" ry="132" fill="#274d2f"/>
+    <ellipse cx="1460" cy="680" rx="180" ry="110" fill="#365f3a"/>
+  </g>
+  <g opacity="0.8">
+    <path d="M116 146c48-62 120-88 188-62-18 70-96 134-188 62Z" fill="#8caf45"/>
+    <path d="M462 102c54-68 136-94 206-62-20 74-106 144-206 62Z" fill="#94b24d"/>
+    <path d="M890 144c50-66 128-90 198-60-20 70-104 140-198 60Z" fill="#97b553"/>
+    <path d="M1260 130c48-62 118-90 188-62-18 72-98 138-188 62Z" fill="#88a943"/>
+    <path d="M252 534c54-72 144-94 216-54-28 78-118 148-216 54Z" fill="#93b14b"/>
+    <path d="M672 536c50-66 136-92 208-54-26 80-118 154-208 54Z" fill="#88a943"/>
+    <path d="M1088 516c56-72 146-96 214-56-26 82-122 152-214 56Z" fill="#92b251"/>
+  </g>
+  <g opacity="0.22" stroke="#d9ebaf" stroke-width="4" fill="none">
+    <path d="M112 772c94-108 216-160 356-154"/>
+    <path d="M774 804c88-116 206-172 344-166"/>
+    <path d="M1168 812c78-96 166-140 278-136"/>
+  </g>
+</svg>
