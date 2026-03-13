@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
@@ -210,6 +211,22 @@ export function AdminLayoutFrame({ children }: AdminLayoutFrameProps) {
       <aside id="admin-rail" className="admin-rail" aria-label="Admin navigation">
         <div className="admin-rail-head">
           <div className="admin-rail-headbar">
+            <Link className="admin-rail-brand" href="/admin" onClick={() => setIsSidebarOpen(false)}>
+              <span className="admin-rail-avatar" aria-hidden="true">
+                <Image
+                  className="admin-rail-avatar-image"
+                  src="/assets/images/brand/favicon.png"
+                  alt=""
+                  width={96}
+                  height={96}
+                  priority
+                />
+              </span>
+              <span className="admin-rail-brandcopy">
+                <strong>Garci Admin</strong>
+                <small>Storefront control</small>
+              </span>
+            </Link>
             <button
               className="admin-rail-toggle"
               type="button"
@@ -222,6 +239,12 @@ export function AdminLayoutFrame({ children }: AdminLayoutFrameProps) {
             >
               <AdminIcon name={sidebarToggleIcon} />
             </button>
+          </div>
+
+          <div className="admin-rail-status">
+            <p className="admin-rail-kicker">Workspace</p>
+            <strong>Storefront connected</strong>
+            <span>Manage products and contact details in the same Garci visual system.</span>
           </div>
         </div>
 

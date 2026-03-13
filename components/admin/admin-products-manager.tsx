@@ -573,102 +573,113 @@ export function AdminProductsManager({ initialProducts }: AdminProductsManagerPr
                     </div>
 
                     <div className="admin-form-layout">
-                      <div className="admin-field-grid">
-                        <label className="admin-form-field">
-                          <span>Slug</span>
-                          <input
-                            value={formState.slug}
-                            onChange={(event) =>
-                              setFormState((current) => ({ ...current, slug: event.target.value }))
-                            }
-                            placeholder="green-banana-flour"
-                          />
-                        </label>
+                      <div className="admin-editor-main-grid">
+                        <div className="admin-editor-fields">
+                          <div className="admin-field-grid">
+                            <label className="admin-form-field">
+                              <span>Slug</span>
+                              <input
+                                value={formState.slug}
+                                onChange={(event) =>
+                                  setFormState((current) => ({ ...current, slug: event.target.value }))
+                                }
+                                placeholder="green-banana-flour"
+                              />
+                            </label>
 
-                        <label className="admin-form-field">
-                          <span>Name</span>
-                          <input
-                            value={formState.name}
-                            onChange={(event) =>
-                              setFormState((current) => ({ ...current, name: event.target.value }))
-                            }
-                            placeholder="Green Banana Flour"
-                          />
-                        </label>
+                            <label className="admin-form-field">
+                              <span>Name</span>
+                              <input
+                                value={formState.name}
+                                onChange={(event) =>
+                                  setFormState((current) => ({ ...current, name: event.target.value }))
+                                }
+                                placeholder="Green Banana Flour"
+                              />
+                            </label>
 
-                        <label className="admin-form-field is-full">
-                          <span>Description</span>
+                            <label className="admin-form-field is-full">
+                              <span>Description</span>
+                              <textarea
+                                rows={5}
+                                value={formState.description}
+                                onChange={(event) =>
+                                  setFormState((current) => ({
+                                    ...current,
+                                    description: event.target.value,
+                                  }))
+                                }
+                                placeholder="Short public-facing summary for the product."
+                              ></textarea>
+                            </label>
+
+                            <label className="admin-form-field is-full">
+                              <span>Image URL</span>
+                              <input
+                                value={formState.imageUrl}
+                                onChange={(event) =>
+                                  setFormState((current) => ({
+                                    ...current,
+                                    imageUrl: event.target.value,
+                                  }))
+                                }
+                                placeholder="/assets/images/products/green-banana-flour.png"
+                              />
+                            </label>
+                          </div>
+                        </div>
+
+                        <div className="admin-editor-preview-panel">
+                          <div className="admin-media-preview">
+                            <div className="admin-media-frame">
+                              {isPreviewImageBroken ? (
+                                <div className="admin-media-placeholder">Preview unavailable</div>
+                              ) : (
+                                <img
+                                  src={previewImageUrl}
+                                  alt=""
+                                  loading="lazy"
+                                  onError={() => setIsPreviewImageBroken(true)}
+                                />
+                              )}
+                            </div>
+                            <div className="admin-media-copy">
+                              <p className="admin-board-kicker">Image preview</p>
+                              <div className="admin-media-path">{previewImageUrl}</div>
+                              <p className="admin-media-note">
+                                Use a repo asset path or a future storage URL. The preview reflects the
+                                exact path that will be saved.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="admin-editor-copy-grid">
+                        <label className="admin-form-field">
+                          <span>Features</span>
                           <textarea
-                            rows={5}
-                            value={formState.description}
+                            rows={7}
+                            value={formState.features}
                             onChange={(event) =>
-                              setFormState((current) => ({
-                                ...current,
-                                description: event.target.value,
-                              }))
+                              setFormState((current) => ({ ...current, features: event.target.value }))
                             }
-                            placeholder="Short public-facing summary for the product."
+                            placeholder="One feature per line"
                           ></textarea>
                         </label>
 
-                        <label className="admin-form-field is-full">
-                          <span>Image URL</span>
-                          <input
-                            value={formState.imageUrl}
+                        <label className="admin-form-field">
+                          <span>Tags</span>
+                          <textarea
+                            rows={5}
+                            value={formState.tags}
                             onChange={(event) =>
-                              setFormState((current) => ({ ...current, imageUrl: event.target.value }))
+                              setFormState((current) => ({ ...current, tags: event.target.value }))
                             }
-                            placeholder="/assets/images/products/green-banana-flour.png"
-                          />
+                            placeholder="One tag per line"
+                          ></textarea>
                         </label>
                       </div>
-
-                      <div className="admin-media-preview">
-                        <div className="admin-media-frame">
-                          {isPreviewImageBroken ? (
-                            <div className="admin-media-placeholder">Preview unavailable</div>
-                          ) : (
-                            <img
-                              src={previewImageUrl}
-                              alt=""
-                              loading="lazy"
-                              onError={() => setIsPreviewImageBroken(true)}
-                            />
-                          )}
-                        </div>
-                        <div className="admin-media-copy">
-                          <p className="admin-board-kicker">Image preview</p>
-                          <div className="admin-media-path">{previewImageUrl}</div>
-                          <p className="admin-media-note">
-                            Use a repo asset path or a future storage URL. The preview reflects the
-                            exact path that will be saved.
-                          </p>
-                        </div>
-                      </div>
-
-                      <label className="admin-form-field">
-                        <span>Features</span>
-                        <textarea
-                          rows={7}
-                          value={formState.features}
-                          onChange={(event) =>
-                            setFormState((current) => ({ ...current, features: event.target.value }))
-                          }
-                          placeholder="One feature per line"
-                        ></textarea>
-                      </label>
-
-                      <label className="admin-form-field">
-                        <span>Tags</span>
-                        <textarea
-                          rows={5}
-                          value={formState.tags}
-                          onChange={(event) =>
-                            setFormState((current) => ({ ...current, tags: event.target.value }))
-                          }
-                          placeholder="One tag per line"
-                        ></textarea>
-                      </label>
 
                       <div className="admin-tag-editor-preview">
                         <div className="admin-tag-editor-copy">
@@ -705,26 +716,28 @@ export function AdminProductsManager({ initialProducts }: AdminProductsManagerPr
                       </span>
                     </label>
 
-                    <div className="admin-form-actions">
-                      <button className="btn admin-btn-primary" type="submit" disabled={isPending}>
-                        {isPending ? "Saving..." : formState.id ? "Update product" : "Create product"}
-                      </button>
-                      <button
-                        className="btn admin-btn-secondary"
-                        type="button"
-                        disabled={isPending || !hasUnsavedChanges}
-                        onClick={restoreBaseline}
-                      >
-                        Reset changes
-                      </button>
-                      <button
-                        className="btn admin-btn-ghost"
-                        type="button"
-                        disabled={isPending}
-                        onClick={() => closeEditorModal()}
-                      >
-                        Cancel
-                      </button>
+                    <div className="admin-editor-actions">
+                      <div className="admin-form-actions">
+                        <button className="btn admin-btn-primary" type="submit" disabled={isPending}>
+                          {isPending ? "Saving..." : formState.id ? "Update product" : "Create product"}
+                        </button>
+                        <button
+                          className="btn admin-btn-secondary"
+                          type="button"
+                          disabled={isPending || !hasUnsavedChanges}
+                          onClick={restoreBaseline}
+                        >
+                          Reset changes
+                        </button>
+                        <button
+                          className="btn admin-btn-ghost"
+                          type="button"
+                          disabled={isPending}
+                          onClick={() => closeEditorModal()}
+                        >
+                          Cancel
+                        </button>
+                      </div>
                     </div>
 
                     {feedback ? <p className="admin-feedback is-success">{feedback}</p> : null}

@@ -301,7 +301,7 @@ export default async function AdminOverviewPage() {
             <div
               className="admin-donut-visual"
               style={{
-                background: `conic-gradient(#6f52ff 0 ${liveMix}%, #49d5c8 ${liveMix}% ${liveMix + hiddenMix}%, #ff8a4c ${liveMix + hiddenMix}% 100%)`,
+                background: `conic-gradient(var(--admin-signal-live) 0 ${liveMix}%, var(--admin-signal-staged) ${liveMix}% ${liveMix + hiddenMix}%, var(--admin-signal-inquiry) ${liveMix + hiddenMix}% 100%)`,
               }}
             >
               <div className="admin-donut-core">
