@@ -5,6 +5,7 @@ import { UserRole } from "@prisma/client";
 
 import { productSeedData } from "../content/products";
 import { getPrismaClient } from "../lib/db";
+import { defaultSiteContactSettings, siteSettingsRecordId } from "../lib/site";
 
 const prisma = getPrismaClient();
 
@@ -33,6 +34,17 @@ const seedProducts = async () => {
   }
 };
 
+const seedSiteSettings = async () => {
+  await prisma.siteSettings.upsert({
+    where: { id: siteSettingsRecordId },
+    update: defaultSiteContactSettings,
+    create: {
+      id: siteSettingsRecordId,
+      ...defaultSiteContactSettings,
+    },
+  });
+};
+
 const seedAdminUser = async () => {
   const adminEmail = process.env.ADMIN_EMAIL;
   const adminPassword = process.env.ADMIN_PASSWORD;
@@ -59,6 +71,7 @@ const seedAdminUser = async () => {
 
 const main = async () => {
   await seedProducts();
+  await seedSiteSettings();
   await seedAdminUser();
 };
 

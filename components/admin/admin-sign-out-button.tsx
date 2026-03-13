@@ -24,7 +24,7 @@ export function AdminSignOutButton({
           return;
         }
 
-        signOut({ callbackUrl: "/" });
+        signOut({ callbackUrl: "/admin/login" });
       }}
       {...props}
     >

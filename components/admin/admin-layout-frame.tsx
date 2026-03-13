@@ -1,13 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 
 import { AdminIcon } from "@/components/admin/admin-icon";
 import { AdminSignOutButton } from "@/components/admin/admin-sign-out-button";
-import { siteConfig } from "@/lib/site";
 
 type AdminLayoutFrameProps = {
   children: ReactNode;
@@ -212,23 +210,6 @@ export function AdminLayoutFrame({ children }: AdminLayoutFrameProps) {
       <aside id="admin-rail" className="admin-rail" aria-label="Admin navigation">
         <div className="admin-rail-head">
           <div className="admin-rail-headbar">
-            <Link className="admin-rail-brand" href="/admin" aria-label={`${siteConfig.name} admin home`}>
-              <span className="admin-rail-avatar" aria-hidden="true">
-                <Image
-                  className="admin-rail-avatar-image"
-                  src="/assets/images/brand/favicon.png"
-                  alt=""
-                  width={512}
-                  height={512}
-                  priority
-                />
-              </span>
-              <span className="admin-rail-brandcopy">
-                <strong>{siteConfig.name}</strong>
-                <small>Control Grid</small>
-              </span>
-            </Link>
-
             <button
               className="admin-rail-toggle"
               type="button"

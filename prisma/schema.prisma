@@ -32,6 +32,17 @@ model Inquiry {
   createdAt DateTime @default(now())
 }
 
+model SiteSettings {
+  id          String   @id @default("site")
+  mobile      String
+  telephone   String
+  address     String
+  mapUrl      String
+  mapEmbedUrl String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model User {
   id           String   @id @default(cuid())
   email        String   @unique

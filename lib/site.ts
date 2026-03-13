@@ -9,16 +9,40 @@ export type LinkItem = {
   external?: boolean;
 };
 
+export type FooterSection = {
+  title: string;
+  links: LinkItem[];
+};
+
+export type SiteContactSettings = {
+  mobile: string;
+  telephone: string;
+  address: string;
+  mapUrl: string;
+  mapEmbedUrl: string;
+};
+
+export type SiteContactSettingsSnapshot = SiteContactSettings & {
+  updatedAt: string | null;
+  isDefault: boolean;
+};
+
+export const siteSettingsRecordId = "site";
+
+export const defaultSiteContactSettings: SiteContactSettings = {
+  mobile: "+94 76 9299976",
+  telephone: "+94 33 2221376",
+  address: "No. 272, Wathumulla Rd, Asgiriya, Gampaha",
+  mapUrl: "https://maps.google.com/?q=No.+272,+Wathumulla+Rd,+Asgiriya,+Gampaha",
+  mapEmbedUrl:
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d399.19877576781136!2d79.9899163278274!3d7.112297188279818!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2fbd75517d92d%3A0xddc9e7c587a43178!2sGarci!5e0!3m2!1sen!2slk!4v1763575451972!5m2!1sen!2slk",
+};
+
 export const siteConfig = {
   name: "Garci",
   defaultTitle: "Garci | Home",
   description: "Garci Sri Lankan jackfruit and banana flour website.",
-  contact: {
-    mobile: "+94 76 9299976",
-    telephone: "+94 33 2221376",
-    address: "No. 272, Wathumulla Rd, Asgiriya, Gampaha",
-    mapUrl: "https://maps.google.com/?q=No.+272,+Wathumulla+Rd,+Asgiriya,+Gampaha",
-  },
+  contact: defaultSiteContactSettings,
 } as const;
 
 export const navigationItems: NavItem[] = [
@@ -28,10 +52,32 @@ export const navigationItems: NavItem[] = [
   { href: "/contact", label: "Contact Us" },
 ];
 
-export const footerSections: Array<{
-  title: string;
-  links: LinkItem[];
-}> = [
+const socialLinks: LinkItem[] = [
+  {
+    href: "https://www.facebook.com/garcifoods/",
+    label: "Facebook",
+    external: true,
+  },
+  {
+    href: "https://www.linkedin.com/company/garcifoods",
+    label: "LinkedIn",
+    external: true,
+  },
+  {
+    href: "https://www.instagram.com/garcifoods/",
+    label: "Instagram",
+    external: true,
+  },
+];
+
+export const toTelephoneHref = (value: string) => {
+  const trimmed = value.trim();
+  const digits = trimmed.replace(/[^\d]/g, "");
+
+  return `tel:${trimmed.startsWith("+") ? `+${digits}` : digits}`;
+};
+
+export const buildFooterSections = (contact: SiteContactSettings): FooterSection[] => [
   {
     title: "Pages",
     links: navigationItems.map((item) => ({
@@ -42,33 +88,19 @@ export const footerSections: Array<{
   {
     title: "Contact",
     links: [
-      { href: "tel:+94769299976", label: "Mobile: +94 76 9299976" },
-      { href: "tel:+94332221376", label: "Tel: +94 33 2221376" },
+      { href: toTelephoneHref(contact.mobile), label: `Mobile: ${contact.mobile}` },
+      { href: toTelephoneHref(contact.telephone), label: `Tel: ${contact.telephone}` },
       {
-        href: siteConfig.contact.mapUrl,
-        label: siteConfig.contact.address,
+        href: contact.mapUrl,
+        label: contact.address,
         external: true,
       },
     ],
   },
   {
     title: "Social",
-    links: [
-      {
-        href: "https://www.facebook.com/garcifoods/",
-        label: "Facebook",
-        external: true,
-      },
-      {
-        href: "https://www.linkedin.com/company/garcifoods",
-        label: "LinkedIn",
-        external: true,
-      },
-      {
-        href: "https://www.instagram.com/garcifoods/",
-        label: "Instagram",
-        external: true,
-      },
-    ],
+    links: socialLinks,
   },
 ];
+
+export const footerSections = buildFooterSections(defaultSiteContactSettings);

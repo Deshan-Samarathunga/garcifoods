@@ -77,9 +77,9 @@ body.admin-route {
 
 .admin-rail-headbar {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.8rem;
+  grid-template-columns: 1fr;
+  align-items: stretch;
+  gap: 0.65rem;
 }
 
 .admin-rail-brand {
@@ -89,19 +89,19 @@ body.admin-route {
   width: 100%;
   min-width: 0;
   text-align: left;
-  gap: 0.7rem;
+  gap: 0.6rem;
 }
 
 .admin-rail-avatar {
   overflow: hidden;
-  width: 3.45rem;
-  height: 3.45rem;
-  border-radius: 1.15rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
   font-size: 1.8rem;
 }
 
 .admin-rail-avatar-image {
-  width: 78%;
+  width: 76%;
   height: auto;
 }
 
@@ -116,16 +116,18 @@ body.admin-route {
 
 .admin-rail-brandcopy strong {
   display: block;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   line-height: 1.1;
 }
 
 .admin-rail-brandcopy small {
   display: block;
-  font-size: 0.66rem;
-  letter-spacing: 0.12em;
+  max-width: 100%;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
   line-height: 1.2;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .admin-rail-brandcopy,
@@ -157,6 +159,10 @@ body.admin-route {
     background 160ms ease,
     border-color 160ms ease,
     opacity 160ms ease;
+}
+
+.admin-rail-toggle {
+  justify-self: end;
 }
 
 .admin-rail-toggle:hover,
@@ -1108,6 +1114,7 @@ body.admin-route {
   }
 
   .admin-frame.is-rail-collapsed .admin-rail-toggle {
+    justify-self: center;
     width: 2.35rem;
     height: 2.35rem;
     border-radius: 0.85rem;

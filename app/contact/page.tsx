@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
 
 import { ContactForm } from "@/components/contact/contact-form";
-import { siteConfig } from "@/lib/site";
+import { toTelephoneHref } from "@/lib/site";
+import { getPublicSiteContactSettings } from "@/lib/services/site-settings";
 
 export const metadata: Metadata = {
   title: "Contact Us",
   description: "Contact Garci for product inquiries.",
 };
 
-export default function ContactPage() {
+export const dynamic = "force-dynamic";
+
+export default async function ContactPage() {
+  const contactSettings = await getPublicSiteContactSettings();
+
   return (
     <main className="page-main">
       <section className="section contact-details-section">
@@ -19,11 +24,14 @@ export default function ContactPage() {
                 <p className="eyebrow">Contact Numbers</p>
                 <h3>Call Us</h3>
                 <div className="contact-phone-list">
-                  <a className="text-link text-link-inline" href="tel:+94769299976">
-                    Mobile: {siteConfig.contact.mobile}
+                  <a className="text-link text-link-inline" href={toTelephoneHref(contactSettings.mobile)}>
+                    Mobile: {contactSettings.mobile}
                   </a>
-                  <a className="text-link text-link-inline" href="tel:+94332221376">
-                    Telephone: {siteConfig.contact.telephone}
+                  <a
+                    className="text-link text-link-inline"
+                    href={toTelephoneHref(contactSettings.telephone)}
+                  >
+                    Telephone: {contactSettings.telephone}
                   </a>
                 </div>
               </article>
@@ -36,11 +44,11 @@ export default function ContactPage() {
                 <address className="contact-address">
                   <a
                     className="text-link text-link-inline"
-                    href={siteConfig.contact.mapUrl}
+                    href={contactSettings.mapUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {siteConfig.contact.address}
+                    {contactSettings.address}
                   </a>
                 </address>
               </article>
@@ -65,7 +73,7 @@ export default function ContactPage() {
 
                 <div className="map-frame">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d399.19877576781136!2d79.9899163278274!3d7.112297188279818!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2fbd75517d92d%3A0xddc9e7c587a43178!2sGarci!5e0!3m2!1sen!2slk!4v1763575451972!5m2!1sen!2slk"
+                    src={contactSettings.mapEmbedUrl}
                     width="900"
                     height="750"
                     style={{ border: 0 }}

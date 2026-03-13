@@ -1,11 +1,57 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-import { footerSections } from "@/lib/site";
+import {
+  buildFooterSections,
+  defaultSiteContactSettings,
+  type SiteContactSettings,
+} from "@/lib/site";
 
 const isInternalHref = (href: string) => href.startsWith("/");
 
+type SiteContactResponse =
+  | {
+      ok: true;
+      data: SiteContactSettings;
+    }
+  | {
+      ok: false;
+      error?: string;
+    };
+
 export function SiteFooter() {
+  const [contactSettings, setContactSettings] = useState<SiteContactSettings>(defaultSiteContactSettings);
+
+  useEffect(() => {
+    let isActive = true;
+
+    const loadContactSettings = async () => {
+      try {
+        const response = await fetch("/api/site/contact");
+        const payload = (await response.json().catch(() => null)) as SiteContactResponse | null;
+
+        if (!response.ok || !payload?.ok || !isActive) {
+          return;
+        }
+
+        setContactSettings(payload.data);
+      } catch {
+        // Keep the default storefront contact details if the request fails.
+      }
+    };
+
+    void loadContactSettings();
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
+
+  const footerSections = buildFooterSections(contactSettings);
+
   return (
     <footer className="site-footer">
       <div className="container">
