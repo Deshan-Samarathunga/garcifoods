@@ -74,8 +74,8 @@ export function ProductRangeSlider({ products }: ProductRangeSliderProps) {
                 <h3>{product.highlightTitle}</h3>
                 <p>{product.highlightDescription}</p>
                 <div className="catalog-chip-list slide-chip-list" aria-label={`${product.name} highlights`}>
-                  {product.tags.map((tag) => (
-                    <span key={tag}>{tag}</span>
+                  {product.tags.map((tag, index) => (
+                    <span key={`${product.slug}-${tag}-${index}`}>{tag}</span>
                   ))}
                 </div>
                 <ul>

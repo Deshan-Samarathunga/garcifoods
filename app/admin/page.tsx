@@ -402,11 +402,6 @@ export default async function AdminOverviewPage() {
               <strong>{databaseError ? "Attention" : "Operational"}</strong>
               <span>{databaseError ? "Check PostgreSQL connection" : "Server-backed controls active"}</span>
             </article>
-            <article className="admin-mini-board is-ink">
-              <p>Quick launch</p>
-              <strong>Open catalog editor</strong>
-              <Link href="/admin/products">Go to products</Link>
-            </article>
           </div>
         </div>
 

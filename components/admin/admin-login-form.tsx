@@ -16,6 +16,7 @@ export function AdminLoginForm() {
   return (
     <form
       className="admin-login-card"
+      aria-busy={isSubmitting}
       onSubmit={(event) => {
         event.preventDefault();
         const form = event.currentTarget;
@@ -52,18 +53,30 @@ export function AdminLoginForm() {
           <h2>Access the control board</h2>
         </div>
         <p className="admin-board-copy">
-          Use the seeded admin credentials from your environment configuration.
+          Use the admin credentials defined in your environment to enter the product workspace.
         </p>
       </div>
 
-      <div className="admin-form-layout">
+      <div className="admin-form-layout admin-login-form-layout">
         <label className="admin-form-field">
           <span>Email</span>
-          <input name="email" type="email" autoComplete="email" required />
+          <input
+            name="email"
+            type="email"
+            autoComplete="email"
+            placeholder="Enter your admin email"
+            required
+          />
         </label>
         <label className="admin-form-field">
           <span>Password</span>
-          <input name="password" type="password" autoComplete="current-password" required />
+          <input
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            placeholder="Enter your password"
+            required
+          />
         </label>
       </div>
 
@@ -74,6 +87,10 @@ export function AdminLoginForm() {
           {isSubmitting ? "Signing in..." : "Sign in"}
         </button>
       </div>
+
+      <p className="admin-login-form-note">
+        Only authorized credentials can access the catalog workspace.
+      </p>
 
       {errorMessage ? (
         <p className={cn("admin-feedback", "is-error")} aria-live="polite">

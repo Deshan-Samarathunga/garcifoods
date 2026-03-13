@@ -1,3 +1,5 @@
+import { describe, expect, it } from "vitest";
+
 import { assertAdminRole, hasAdminRole } from "@/lib/auth-guards";
 
 describe("auth guard behavior", () => {

@@ -11,6 +11,7 @@ export type ProductDto = {
   name: string;
   description: string;
   features: string[];
+  tags: string[];
   imageUrl: string;
   isActive: boolean;
   createdAt: string;
@@ -19,7 +20,6 @@ export type ProductDto = {
 
 export type MarketingProduct = ProductDto & {
   tone: ProductTone;
-  tags: string[];
   highlightTitle: string;
   highlightDescription: string;
   catalogSummary: string;
@@ -28,6 +28,29 @@ export type MarketingProduct = ProductDto & {
 const toneFallbacks: ProductTone[] = ["tone-jackfruit", "tone-seed", "tone-banana", "tone-default"];
 
 const seedMap = new Map(productSeedData.map((product) => [product.slug, product]));
+
+const deriveProductTags = (features: string[]) => {
+  const tags = features
+    .slice(0, 3)
+    .map((feature) => feature.split(" ").slice(0, 2).join(" ").trim())
+    .filter(Boolean);
+
+  return tags.length > 0 ? tags : ["Garci", "Sri Lankan", "Natural"];
+};
+
+const resolveProductTags = (slug: string, tags: string[], features: string[]) => {
+  if (tags.length > 0) {
+    return tags;
+  }
+
+  const seeded = seedMap.get(slug);
+
+  if (seeded?.tags.length) {
+    return seeded.tags;
+  }
+
+  return deriveProductTags(features);
+};
 
 const seedToProductDto = (product: ProductSeed, index: number): ProductDto => {
   const createdAt = new Date(Date.UTC(2025, 0, index + 1)).toISOString();
@@ -38,6 +61,7 @@ const seedToProductDto = (product: ProductSeed, index: number): ProductDto => {
     name: product.name,
     description: product.description,
     features: product.features,
+    tags: product.tags,
     imageUrl: product.imageUrl,
     isActive: product.isActive,
     createdAt,
@@ -51,6 +75,7 @@ const serializeProduct = (product: {
   name: string;
   description: string;
   features: string[];
+  tags: string[];
   imageUrl: string;
   isActive: boolean;
   createdAt: Date;
@@ -62,6 +87,7 @@ const serializeProduct = (product: {
     name: product.name,
     description: product.description,
     features: product.features,
+    tags: resolveProductTags(product.slug, product.tags, product.features),
     imageUrl: product.imageUrl,
     isActive: product.isActive,
     createdAt: product.createdAt.toISOString(),
@@ -76,21 +102,15 @@ const createMarketingProduct = (product: ProductDto, index: number): MarketingPr
     return {
       ...product,
       tone: seeded.tone,
-      tags: seeded.tags,
       highlightTitle: seeded.highlightTitle,
       highlightDescription: seeded.highlightDescription,
       catalogSummary: seeded.catalogSummary,
     };
   }
 
-  const tags = product.features.slice(0, 3).map((feature) => {
-    return feature.split(" ").slice(0, 2).join(" ");
-  });
-
   return {
     ...product,
     tone: toneFallbacks[index % toneFallbacks.length],
-    tags: tags.length > 0 ? tags : ["Garci", "Sri Lankan", "Natural"],
     highlightTitle: product.name,
     highlightDescription: product.description,
     catalogSummary: product.description,
@@ -103,6 +123,7 @@ const productSelect = {
   name: true,
   description: true,
   features: true,
+  tags: true,
   imageUrl: true,
   isActive: true,
   createdAt: true,

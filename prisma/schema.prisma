@@ -16,6 +16,7 @@ model Product {
   name        String
   description String
   features    String[]
+  tags        String[] @default([])
   imageUrl    String
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())

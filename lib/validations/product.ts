@@ -8,6 +8,12 @@ const featureSchema = z
   .min(2, "Each feature must contain at least 2 characters.")
   .max(140, "Each feature must stay under 140 characters.");
 
+const tagSchema = z
+  .string()
+  .trim()
+  .min(2, "Each tag must contain at least 2 characters.")
+  .max(32, "Each tag must stay under 32 characters.");
+
 export const adminProductSchema = z.object({
   slug: z
     .string()
@@ -25,6 +31,10 @@ export const adminProductSchema = z.object({
     .array(featureSchema)
     .min(1, "Add at least one product feature.")
     .max(8, "Keep the feature list to 8 items or fewer."),
+  tags: z
+    .array(tagSchema)
+    .min(1, "Add at least one product tag.")
+    .max(6, "Keep the tag list to 6 items or fewer."),
   imageUrl: z.string().trim().min(1, "Image URL is required.").max(255, "Image URL is too long."),
   isActive: z.boolean().default(true),
 });

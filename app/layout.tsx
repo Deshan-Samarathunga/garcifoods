@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Google_Sans_Flex } from "next/font/google";
 
 import { AppShell } from "@/components/app-shell";
 import { env } from "@/lib/env";
@@ -8,13 +7,6 @@ import { siteConfig } from "@/lib/site";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./legacy-site.css";
 import "./globals.css";
-
-const googleSansFlex = Google_Sans_Flex({
-  subsets: ["latin"],
-  variable: "--font-google-sans",
-  display: "swap",
-  adjustFontFallback: false,
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.siteUrl),
@@ -62,7 +54,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={googleSansFlex.variable}>
+    <html lang="en">
       <body>
         <AppShell>{children}</AppShell>
       </body>

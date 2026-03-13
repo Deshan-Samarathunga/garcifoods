@@ -70,8 +70,8 @@ export function ProductsCatalog({ products }: ProductsCatalogProps) {
                 <h3>{product.name}</h3>
                 <p>{product.catalogSummary}</p>
                 <div className="catalog-chip-list">
-                  {product.tags.map((tag) => (
-                    <span key={tag}>{tag}</span>
+                  {product.tags.map((tag, index) => (
+                    <span key={`${product.slug}-${tag}-${index}`}>{tag}</span>
                   ))}
                 </div>
               </div>

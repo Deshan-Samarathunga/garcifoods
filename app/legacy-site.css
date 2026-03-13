@@ -1,4 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@8..144,100..700&display=swap");
+
 :root {
+  --font-google-sans: "Google Sans Flex";
   --bg: #f7f1e7;
   --surface: #efe6db;
   --white: #ffffff;

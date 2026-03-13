@@ -22,7 +22,7 @@ type RouteMeta = {
 type RailItem = {
   href: string;
   label: string;
-  icon: "dashboard" | "catalog" | "external" | "contact";
+  icon: "dashboard" | "catalog" | "external" | "contact" | "settings";
   target?: "_blank";
   rel?: string;
 };
@@ -39,22 +39,20 @@ const railItems: RailItem[] = [
     icon: "catalog",
   },
   {
-    href: "/",
-    label: "Site",
-    icon: "external",
-    target: "_blank",
-    rel: "noreferrer",
+    href: "/admin/settings",
+    label: "Settings",
+    icon: "settings",
   },
   {
-    href: "/contact",
-    label: "Contact",
-    icon: "contact",
+    href: "/products",
+    label: "Storefront",
+    icon: "external",
     target: "_blank",
     rel: "noreferrer",
   },
 ] as const;
 
-const routeMeta: Record<"overview" | "products", RouteMeta> = {
+const routeMeta: Record<"overview" | "products" | "settings", RouteMeta> = {
   overview: {
     trail: "Dashboard / Overview",
     label: "Dashboard",
@@ -64,6 +62,11 @@ const routeMeta: Record<"overview" | "products", RouteMeta> = {
     trail: "Dashboard / Products",
     label: "Product Studio",
     searchLabel: "Search catalog",
+  },
+  settings: {
+    trail: "Dashboard / Settings",
+    label: "Settings",
+    searchLabel: "Open product studio",
   },
 };
 
@@ -89,7 +92,11 @@ export function AdminLayoutFrame({ children }: AdminLayoutFrameProps) {
   const [isRailCollapsed, setIsRailCollapsed] = useState(false);
   const [hasLoadedRailPreference, setHasLoadedRailPreference] = useState(false);
   const isLoginPage = pathname === "/admin/login";
-  const currentRoute = pathname.startsWith("/admin/products") ? routeMeta.products : routeMeta.overview;
+  const currentRoute = pathname.startsWith("/admin/products")
+    ? routeMeta.products
+    : pathname.startsWith("/admin/settings")
+      ? routeMeta.settings
+      : routeMeta.overview;
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(desktopMediaQuery);
@@ -99,15 +106,18 @@ export function AdminLayoutFrame({ children }: AdminLayoutFrameProps) {
 
     syncViewport();
 
-    try {
-      setIsRailCollapsed(window.localStorage.getItem(desktopRailPreferenceKey) === "true");
-    } catch {}
+    const preferenceLoadTimer = window.setTimeout(() => {
+      try {
+        setIsRailCollapsed(window.localStorage.getItem(desktopRailPreferenceKey) === "true");
+      } catch {}
 
-    setHasLoadedRailPreference(true);
+      setHasLoadedRailPreference(true);
+    }, 0);
 
     mediaQuery.addEventListener("change", syncViewport);
 
     return () => {
+      window.clearTimeout(preferenceLoadTimer);
       mediaQuery.removeEventListener("change", syncViewport);
     };
   }, []);
@@ -166,10 +176,32 @@ export function AdminLayoutFrame({ children }: AdminLayoutFrameProps) {
     setIsSidebarOpen((current) => !current);
   };
 
+  const sidebarToggleLabel = isDesktopViewport
+    ? isRailCollapsed
+      ? "Expand sidebar"
+      : "Collapse sidebar"
+    : isSidebarOpen
+      ? "Close navigation"
+      : "Open navigation";
+  const sidebarToggleIcon: "close" | "menu" = !isDesktopViewport && isSidebarOpen ? "close" : "menu";
+
   return (
     <div
       className={`admin-frame${isSidebarOpen ? " is-sidebar-open" : ""}${isRailCollapsed ? " is-rail-collapsed" : ""}`}
     >
+      <button
+        className="admin-rail-launcher"
+        type="button"
+        hidden={isSidebarOpen}
+        aria-controls="admin-rail"
+        aria-expanded={false}
+        aria-label="Open navigation"
+        title="Open navigation"
+        onClick={() => setIsSidebarOpen(true)}
+      >
+        <AdminIcon name="menu" />
+      </button>
+
       <button
         className="admin-rail-backdrop"
         type="button"
@@ -179,31 +211,37 @@ export function AdminLayoutFrame({ children }: AdminLayoutFrameProps) {
 
       <aside id="admin-rail" className="admin-rail" aria-label="Admin navigation">
         <div className="admin-rail-head">
-          <Link className="admin-rail-brand" href="/admin" aria-label={`${siteConfig.name} admin home`}>
-            <span className="admin-rail-avatar" aria-hidden="true">
-              <Image
-                className="admin-rail-avatar-image"
-                src="/assets/images/brand/favicon.png"
-                alt=""
-                width={512}
-                height={512}
-                priority
-              />
-            </span>
-            <span className="admin-rail-brandcopy">
-              <strong>{siteConfig.name}</strong>
-              <small>Control Grid</small>
-            </span>
-          </Link>
+          <div className="admin-rail-headbar">
+            <Link className="admin-rail-brand" href="/admin" aria-label={`${siteConfig.name} admin home`}>
+              <span className="admin-rail-avatar" aria-hidden="true">
+                <Image
+                  className="admin-rail-avatar-image"
+                  src="/assets/images/brand/favicon.png"
+                  alt=""
+                  width={512}
+                  height={512}
+                  priority
+                />
+              </span>
+              <span className="admin-rail-brandcopy">
+                <strong>{siteConfig.name}</strong>
+                <small>Control Grid</small>
+              </span>
+            </Link>
 
-          <button
-            className="admin-rail-close"
-            type="button"
-            aria-label="Close navigation"
-            onClick={() => setIsSidebarOpen(false)}
-          >
-            <AdminIcon name="close" />
-          </button>
+            <button
+              className="admin-rail-toggle"
+              type="button"
+              aria-controls="admin-rail"
+              aria-expanded={isDesktopViewport ? undefined : isSidebarOpen}
+              aria-pressed={isDesktopViewport ? isRailCollapsed : undefined}
+              aria-label={sidebarToggleLabel}
+              title={sidebarToggleLabel}
+              onClick={handleNavigationToggle}
+            >
+              <AdminIcon name={sidebarToggleIcon} />
+            </button>
+          </div>
         </div>
 
         <nav className="admin-rail-nav" aria-label="Primary">
@@ -230,61 +268,24 @@ export function AdminLayoutFrame({ children }: AdminLayoutFrameProps) {
           })}
         </nav>
 
-        <div className="admin-rail-status">
-          <p className="admin-rail-kicker">Workspace</p>
-          <strong>Protected session</strong>
-          <span>Catalog edits, visibility changes, and inquiries all run inside the same admin board.</span>
-        </div>
-
         <div className="admin-rail-footer">
-          <div className="admin-rail-dock">
-            <Link
-              className="admin-rail-docklink"
-              href="/products"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Storefront"
-              title={isRailCollapsed ? "Storefront" : undefined}
-            >
-              <AdminIcon name="external" />
-              <span>Storefront</span>
-            </Link>
-            <AdminSignOutButton
-              className="admin-rail-docklink is-logout"
-              aria-label="Log out"
-              title={isRailCollapsed ? "Log out" : undefined}
-            >
+          <AdminSignOutButton
+            className="admin-rail-action is-logout"
+            aria-label="Log out"
+            title={isRailCollapsed ? "Log out" : undefined}
+            onClick={() => setIsSidebarOpen(false)}
+          >
+            <span className="admin-rail-action-icon">
               <AdminIcon name="logout" />
-              <span>Log out</span>
-            </AdminSignOutButton>
-          </div>
+            </span>
+            <span className="admin-rail-action-label">Log out</span>
+          </AdminSignOutButton>
         </div>
       </aside>
 
       <div className="admin-stage">
         <header className="admin-topbar">
           <div className="admin-topbar-start">
-            <button
-              className="admin-topbar-menu"
-              type="button"
-              aria-controls="admin-rail"
-              aria-expanded={isDesktopViewport ? undefined : isSidebarOpen}
-              aria-pressed={isDesktopViewport ? isRailCollapsed : undefined}
-              aria-label={
-                isDesktopViewport
-                  ? isRailCollapsed
-                    ? "Expand sidebar"
-                    : "Collapse sidebar"
-                  : isSidebarOpen
-                    ? "Close navigation"
-                    : "Open navigation"
-              }
-              title={isDesktopViewport ? (isRailCollapsed ? "Expand sidebar" : "Collapse sidebar") : "Menu"}
-              onClick={handleNavigationToggle}
-            >
-              <AdminIcon name="menu" />
-            </button>
-
             <div className="admin-topbar-copy">
               <p className="admin-topbar-kicker">{currentRoute.trail}</p>
               <h1>{currentRoute.label}</h1>
@@ -307,13 +308,6 @@ export function AdminLayoutFrame({ children }: AdminLayoutFrameProps) {
             <Link className="admin-topbar-icon" href="/" target="_blank" rel="noreferrer">
               <AdminIcon name="external" />
             </Link>
-            <Link className="admin-topbar-icon" href="/admin/products">
-              <AdminIcon name="settings" />
-            </Link>
-            <AdminSignOutButton className="admin-topbar-signout">
-              <AdminIcon name="logout" />
-              <span>Log Out</span>
-            </AdminSignOutButton>
           </div>
         </header>
         <div className="admin-stage-scroll">

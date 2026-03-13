@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 
 import { AdminLoginForm } from "@/components/admin/admin-login-form";
@@ -17,39 +18,49 @@ export default function AdminLoginPage() {
       <section className="admin-login-shell">
         <div className="admin-login-aside">
           <div className="admin-login-brand">
-            <span className="admin-login-brandmark">G</span>
+            <span className="admin-login-brandmark" aria-hidden="true">
+              <Image
+                src="/assets/images/brand/favicon.png"
+                alt=""
+                width={96}
+                height={96}
+                priority
+              />
+            </span>
             <div>
-              <p>Garci Foods</p>
-              <strong>Admin Control</strong>
+              <p>Garci Admin</p>
+              <strong>Catalog workspace</strong>
             </div>
           </div>
 
           <div className="admin-login-copy">
             <p className="admin-board-kicker">Protected workspace</p>
-            <h1>Operate the catalog from a clean control board.</h1>
+            <h1>A quieter place to manage the catalog.</h1>
             <p>
-              Sign in to update product records, manage public visibility, and keep the storefront
-              data aligned without touching the public site design.
+              Sign in to update product details, control visibility, and keep the storefront data
+              current without reworking the public site.
             </p>
           </div>
 
           <div className="admin-login-notegrid">
             <article className="admin-login-note is-primary">
-              <strong>Catalog control</strong>
-              <span>Create, stage, edit, and publish product records from one place.</span>
+              <strong>Catalog updates</strong>
+              <span>Edit copy, images, tags, and publish states from one workspace.</span>
             </article>
             <article className="admin-login-note">
-              <strong>Protected access</strong>
-              <span>Credentials-based login stays guarded with session checks and bot screening.</span>
+              <strong>Guarded sign-in</strong>
+              <span>Admin access stays limited to approved credentials and protected sessions.</span>
             </article>
             <article className="admin-login-note">
-              <strong>Storefront unchanged</strong>
-              <span>The admin redesign is isolated from the public site experience.</span>
+              <strong>Public site safe</strong>
+              <span>Storefront presentation stays separate until catalog changes are published.</span>
             </article>
           </div>
         </div>
 
-        <AdminLoginForm />
+        <div className="admin-login-panel">
+          <AdminLoginForm />
+        </div>
       </section>
     </main>
   );

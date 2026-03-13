@@ -1,3 +1,5 @@
+import { describe, expect, it } from "vitest";
+
 import { GET } from "@/app/api/products/route";
 
 describe("products api contract", () => {
@@ -11,6 +13,7 @@ describe("products api contract", () => {
         name: string;
         description: string;
         features: string[];
+        tags: string[];
         imageUrl: string;
         isActive: boolean;
         createdAt: string;
@@ -29,5 +32,6 @@ describe("products api contract", () => {
       isActive: expect.any(Boolean),
     });
     expect(Array.isArray(payload.data[0]?.features)).toBe(true);
+    expect(Array.isArray(payload.data[0]?.tags)).toBe(true);
   });
 });

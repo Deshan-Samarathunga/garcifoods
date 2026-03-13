@@ -3,7 +3,7 @@ import { Redis } from "@upstash/redis";
 
 import { env } from "@/lib/env";
 
-type PolicyName = "contact" | "admin-products";
+type PolicyName = "contact" | "admin-products" | "admin-password";
 
 type RateLimitResult = {
   success: boolean;
@@ -25,9 +25,15 @@ const policies = {
     windowMs: 10 * 60 * 1000,
     prefix: "garci-admin-products",
   },
+  "admin-password": {
+    limit: 5,
+    duration: "15 m" as const,
+    windowMs: 15 * 60 * 1000,
+    prefix: "garci-admin-password",
+  },
 } satisfies Record<
   PolicyName,
-  { limit: number; duration: "1 h" | "10 m"; windowMs: number; prefix: string }
+  { limit: number; duration: "1 h" | "10 m" | "15 m"; windowMs: number; prefix: string }
 >;
 
 const localBuckets = new Map<string, { count: number; reset: number }>();
@@ -54,6 +60,14 @@ const upstashLimiters = upstashRedis
           policies["admin-products"].duration,
         ),
         prefix: policies["admin-products"].prefix,
+      }),
+      "admin-password": new Ratelimit({
+        redis: upstashRedis,
+        limiter: Ratelimit.slidingWindow(
+          policies["admin-password"].limit,
+          policies["admin-password"].duration,
+        ),
+        prefix: policies["admin-password"].prefix,
       }),
     }
   : null;

@@ -1,3 +1,5 @@
+import { describe, expect, it } from "vitest";
+
 import { POST } from "@/app/api/contact/route";
 
 describe("contact api validation", () => {
