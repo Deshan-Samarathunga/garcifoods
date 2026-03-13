@@ -15,7 +15,7 @@ export function AdminLoginForm() {
 
   return (
     <form
-      className="contact-form reveal"
+      className="admin-login-card"
       onSubmit={(event) => {
         event.preventDefault();
         const form = event.currentTarget;
@@ -34,7 +34,9 @@ export function AdminLoginForm() {
           });
 
           if (!result || result.error) {
-            setErrorMessage("The admin login was not accepted. Check the credentials and bot check, then try again.");
+            setErrorMessage(
+              "The admin login was not accepted. Check the credentials and bot check, then try again.",
+            );
             setIsSubmitting(false);
             return;
           }
@@ -44,25 +46,40 @@ export function AdminLoginForm() {
         });
       }}
     >
-      <label className="form-field">
-        <span>Email</span>
-        <input className="form-control" name="email" type="email" autoComplete="email" required />
-      </label>
-      <label className="form-field">
-        <span>Password</span>
-        <input className="form-control" name="password" type="password" autoComplete="current-password" required />
-      </label>
+      <div className="admin-login-card-header">
+        <div>
+          <p className="admin-board-kicker">Admin sign-in</p>
+          <h2>Access the control board</h2>
+        </div>
+        <p className="admin-board-copy">
+          Use the seeded admin credentials from your environment configuration.
+        </p>
+      </div>
+
+      <div className="admin-form-layout">
+        <label className="admin-form-field">
+          <span>Email</span>
+          <input name="email" type="email" autoComplete="email" required />
+        </label>
+        <label className="admin-form-field">
+          <span>Password</span>
+          <input name="password" type="password" autoComplete="current-password" required />
+        </label>
+      </div>
 
       <TurnstileWidget siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY} />
 
-      <div className="contact-actions">
-        <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Signing in..." : "Sign In"}
+      <div className="admin-form-actions">
+        <button className="btn admin-btn-primary" type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Signing in..." : "Sign in"}
         </button>
       </div>
-      <p className={cn("contact-note", errorMessage && "is-error")} aria-live="polite">
-        {errorMessage}
-      </p>
+
+      {errorMessage ? (
+        <p className={cn("admin-feedback", "is-error")} aria-live="polite">
+          {errorMessage}
+        </p>
+      ) : null}
     </form>
   );
 }

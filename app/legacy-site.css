@@ -7,9 +7,12 @@
   --green: #9eb857;
   --green-deep: #1e6a49;
   --accent: #d7ae52;
-  --font-body: var(--font-manrope), sans-serif;
-  --font-display: var(--font-cormorant), serif;
-  --font-accent: var(--font-allura), cursive;
+  --font-manrope: var(--font-google-sans);
+  --font-cormorant: var(--font-google-sans);
+  --font-allura: var(--font-google-sans);
+  --font-body: var(--font-google-sans), sans-serif;
+  --font-display: var(--font-google-sans), sans-serif;
+  --font-accent: var(--font-google-sans), sans-serif;
   --header-height: 5.35rem;
   --header-height-mobile: 4.85rem;
   --navbar-logo-size: 4.5rem;
@@ -1407,6 +1410,8 @@ body {
 .hero-copy h1 {
   max-width: 10ch;
   font-size: clamp(3.1rem, 7vw, 5.5rem);
+  line-height: 0.96;
+  letter-spacing: -0.045em;
 }
 
 .hero-copy p:not(.eyebrow) {
@@ -2642,7 +2647,7 @@ body {
 
 .site-nav a {
   font-size: 0.98rem;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.13em;
 }
 
 .btn,
@@ -3292,9 +3297,9 @@ body {
 .slide-copy h3,
 .founder-copy h2 {
   font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 0.98;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
   text-wrap: balance;
 }
 
@@ -3324,8 +3329,8 @@ body {
 .product-nav a,
 .site-nav a {
   font-family: var(--font-body);
-  font-weight: 800;
-  letter-spacing: 0.1em;
+  font-weight: 700;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
 }
 

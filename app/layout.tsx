@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { Allura, Cormorant_Garamond, Manrope } from "next/font/google";
+import { Google_Sans_Flex } from "next/font/google";
 
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { AppShell } from "@/components/app-shell";
 import { env } from "@/lib/env";
 import { siteConfig } from "@/lib/site";
 
@@ -10,21 +9,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./legacy-site.css";
 import "./globals.css";
 
-const allura = Allura({
+const googleSansFlex = Google_Sans_Flex({
   subsets: ["latin"],
-  variable: "--font-allura",
-  weight: "400",
-});
-
-const cormorantGaramond = Cormorant_Garamond({
-  subsets: ["latin"],
-  variable: "--font-cormorant",
-  weight: ["500", "600", "700"],
-});
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-manrope",
+  variable: "--font-google-sans",
+  display: "swap",
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
@@ -73,11 +62,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${manrope.variable} ${cormorantGaramond.variable} ${allura.variable}`}>
-        <SiteHeader />
-        {children}
-        <SiteFooter />
+    <html lang="en" className={googleSansFlex.variable}>
+      <body>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
