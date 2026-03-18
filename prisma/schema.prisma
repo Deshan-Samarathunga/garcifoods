@@ -39,6 +39,9 @@ model SiteSettings {
   address     String
   mapUrl      String
   mapEmbedUrl String
+  reviewsWidgetEnabled   Boolean  @default(false)
+  reviewsWidgetLoaderUrl String   @default("https://cdn.trustindex.io/loader.js?ver=1")
+  reviewsWidgetMarkup    String   @default("")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

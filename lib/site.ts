@@ -1,6 +1,7 @@
 export type NavItem = {
   href: string;
   label: string;
+  showInFooter?: boolean;
 };
 
 export type LinkItem = {
@@ -27,6 +28,18 @@ export type SiteContactSettingsSnapshot = SiteContactSettings & {
   isDefault: boolean;
 };
 
+export type SiteReviewWidgetSettings = {
+  reviewsWidgetEnabled: boolean;
+  reviewsWidgetCode: string;
+};
+
+export type SiteReviewWidgetSettingsSnapshot = SiteReviewWidgetSettings & {
+  reviewsWidgetLoaderUrl: string;
+  reviewsWidgetMarkup: string;
+  updatedAt: string | null;
+  isDefault: boolean;
+};
+
 export const siteSettingsRecordId = "site";
 
 export const defaultSiteContactSettings: SiteContactSettings = {
@@ -36,6 +49,11 @@ export const defaultSiteContactSettings: SiteContactSettings = {
   mapUrl: "https://maps.google.com/?q=No.+272,+Wathumulla+Rd,+Asgiriya,+Gampaha",
   mapEmbedUrl:
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d399.19877576781136!2d79.9899163278274!3d7.112297188279818!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2fbd75517d92d%3A0xddc9e7c587a43178!2sGarci!5e0!3m2!1sen!2slk!4v1763575451972!5m2!1sen!2slk",
+};
+
+export const defaultSiteReviewWidgetSettings: SiteReviewWidgetSettings = {
+  reviewsWidgetEnabled: false,
+  reviewsWidgetCode: "",
 };
 
 export const siteConfig = {
@@ -50,6 +68,7 @@ export const navigationItems: NavItem[] = [
   { href: "/about", label: "About Us" },
   { href: "/products", label: "Products" },
   { href: "/contact", label: "Contact Us" },
+  { href: "/admin/login", label: "Admin Login", showInFooter: false },
 ];
 
 const socialLinks: LinkItem[] = [
@@ -80,7 +99,7 @@ export const toTelephoneHref = (value: string) => {
 export const buildFooterSections = (contact: SiteContactSettings): FooterSection[] => [
   {
     title: "Pages",
-    links: navigationItems.map((item) => ({
+    links: navigationItems.filter((item) => item.showInFooter !== false).map((item) => ({
       href: item.href,
       label: item.label,
     })),

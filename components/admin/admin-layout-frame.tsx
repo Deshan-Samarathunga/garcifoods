@@ -240,12 +240,6 @@ export function AdminLayoutFrame({ children }: AdminLayoutFrameProps) {
               <AdminIcon name={sidebarToggleIcon} />
             </button>
           </div>
-
-          <div className="admin-rail-status">
-            <p className="admin-rail-kicker">Workspace</p>
-            <strong>Storefront connected</strong>
-            <span>Manage products and contact details in the same Garci visual system.</span>
-          </div>
         </div>
 
         <nav className="admin-rail-nav" aria-label="Primary">

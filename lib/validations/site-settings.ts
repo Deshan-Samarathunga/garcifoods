@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { normalizeTrustindexEmbedCode } from "@/lib/trustindex";
+
 const contactNumberSchema = z
   .string()
   .trim()
@@ -22,4 +24,37 @@ export const adminSiteContactSettingsSchema = z.object({
   mapEmbedUrl: createUrlSchema("map embed"),
 });
 
+export const adminSiteReviewWidgetSettingsSchema = z
+  .object({
+    reviewsWidgetEnabled: z.boolean(),
+    reviewsWidgetCode: z
+      .string()
+      .trim()
+      .max(60000, "Review widget code is too long."),
+  })
+  .superRefine((value, context) => {
+    if (!value.reviewsWidgetCode) {
+      if (value.reviewsWidgetEnabled) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["reviewsWidgetCode"],
+          message: "Paste the Trustindex embed code before enabling the widget.",
+        });
+      }
+
+      return;
+    }
+
+    const normalized = normalizeTrustindexEmbedCode(value.reviewsWidgetCode);
+
+    if (!normalized.ok) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["reviewsWidgetCode"],
+        message: normalized.error,
+      });
+    }
+  });
+
 export type AdminSiteContactSettingsInput = z.infer<typeof adminSiteContactSettingsSchema>;
+export type AdminSiteReviewWidgetSettingsInput = z.infer<typeof adminSiteReviewWidgetSettingsSchema>;

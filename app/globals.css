@@ -1680,6 +1680,53 @@ code {
   transform: none;
 }
 
+.admin-form-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(79, 41, 30, 0.12);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.88);
+  color: #2f2a24;
+  font-weight: 700;
+}
+
+.admin-form-toggle input {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: 0 0 auto;
+  accent-color: #1e6a49;
+}
+
+.admin-form-toggle span {
+  display: block;
+}
+
+.admin-form-toggle.is-full {
+  grid-column: 1 / -1;
+}
+
+.admin-code-field textarea {
+  min-height: 15rem;
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    Menlo,
+    monospace;
+}
+
+.review-widget-host > .ti-widget {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: normal;
+  font: inherit;
+  overflow: visible;
+}
+
 .cf-turnstile {
   margin: 0 0 1rem;
 }

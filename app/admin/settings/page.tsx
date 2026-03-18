@@ -3,12 +3,16 @@ import Link from "next/link";
 
 import { AdminContactSettingsForm } from "@/components/admin/admin-contact-settings-form";
 import { AdminPasswordForm } from "@/components/admin/admin-password-form";
+import { AdminReviewWidgetSettingsForm } from "@/components/admin/admin-review-widget-settings-form";
 import { requireAdminPageSession } from "@/lib/auth";
-import { getAdminSiteContactSettings } from "@/lib/services/site-settings";
+import {
+  getAdminSiteContactSettings,
+  getAdminSiteReviewWidgetSettings,
+} from "@/lib/services/site-settings";
 
 export const metadata: Metadata = {
   title: "Admin Settings",
-  description: "Manage Garci contact details and admin account security.",
+  description: "Manage Garci contact details, Trustindex reviews, and admin account security.",
   robots: {
     index: false,
     follow: false,
@@ -37,10 +41,17 @@ const formatSavedDate = (value: string | null) => {
 };
 
 export default async function AdminSettingsPage() {
-  const [session, contactSettings] = await Promise.all([
+  const [session, contactSettings, reviewWidgetSettings] = await Promise.all([
     requireAdminPageSession(),
     getAdminSiteContactSettings(),
+    getAdminSiteReviewWidgetSettings(),
   ]);
+  const hasConfiguredReviewWidget = Boolean(reviewWidgetSettings.reviewsWidgetMarkup.trim());
+  const reviewWidgetStatus = reviewWidgetSettings.reviewsWidgetEnabled
+    ? "Live on homepage"
+    : hasConfiguredReviewWidget
+      ? "Saved but hidden"
+      : "Using built-in fallback";
 
   return (
     <main className="admin-main">
@@ -75,6 +86,36 @@ export default async function AdminSettingsPage() {
               </div>
 
               <AdminContactSettingsForm initialSettings={contactSettings} />
+            </article>
+
+            <article className="admin-board-card">
+              <div className="admin-board-card-header">
+                <div>
+                  <p className="admin-board-kicker">Homepage content</p>
+                  <h2>Reviews widget</h2>
+                </div>
+                <Link className="admin-board-link" href="/#reviews" target="_blank" rel="noreferrer">
+                  Open reviews section
+                </Link>
+              </div>
+
+              <p className="admin-board-copy">
+                Connect the homepage reviews section to Trustindex and keep the embed snippet
+                editable from the admin panel.
+              </p>
+
+              <div className="admin-settings-facts">
+                <article>
+                  <span>Widget status</span>
+                  <strong>{reviewWidgetStatus}</strong>
+                </article>
+                <article>
+                  <span>Last saved</span>
+                  <strong>{formatSavedDate(reviewWidgetSettings.updatedAt)}</strong>
+                </article>
+              </div>
+
+              <AdminReviewWidgetSettingsForm initialSettings={reviewWidgetSettings} />
             </article>
 
             <article className="admin-board-card">
@@ -120,6 +161,31 @@ export default async function AdminSettingsPage() {
             <article className="admin-board-card">
               <div className="admin-board-card-header">
                 <div>
+                  <p className="admin-board-kicker">Trustindex setup</p>
+                  <h2>What to paste</h2>
+                </div>
+              </div>
+
+              <ul className="admin-settings-help">
+                <li>Open your Trustindex dashboard and copy the website widget embed snippet.</li>
+                <li>Paste the full snippet here. The system keeps the official loader and widget markup.</li>
+                <li>Enable the widget only after the snippet has been saved successfully.</li>
+              </ul>
+            </article>
+
+            <article className="admin-mini-board is-purple">
+              <p>Review source</p>
+              <strong>{reviewWidgetStatus}</strong>
+              <span>
+                {hasConfiguredReviewWidget
+                  ? "The homepage can swap between the live Trustindex widget and the built-in fallback without code changes."
+                  : "Until a widget is configured, the homepage keeps showing the built-in Garci reviews carousel."}
+              </span>
+            </article>
+
+            <article className="admin-board-card">
+              <div className="admin-board-card-header">
+                <div>
                   <p className="admin-board-kicker">Map guidance</p>
                   <h2>What to paste</h2>
                 </div>
@@ -130,12 +196,6 @@ export default async function AdminSettingsPage() {
                 <li>Paste the iframe `src` value into the embed field so the map card matches.</li>
                 <li>Refresh any public page tab you already have open after saving new details.</li>
               </ul>
-            </article>
-
-            <article className="admin-mini-board is-purple">
-              <p>Password policy</p>
-              <strong>8 to 72 characters</strong>
-              <span>New passwords must differ from the current one and be confirmed before saving.</span>
             </article>
 
             <article className="admin-board-card">
@@ -151,6 +211,12 @@ export default async function AdminSettingsPage() {
                 <li>Store the new credential anywhere your team keeps admin access records.</li>
                 <li>After updating, use the new password for the next login session.</li>
               </ul>
+            </article>
+
+            <article className="admin-mini-board is-purple">
+              <p>Password policy</p>
+              <strong>8 to 72 characters</strong>
+              <span>New passwords must differ from the current one and be confirmed before saving.</span>
             </article>
           </div>
         </div>

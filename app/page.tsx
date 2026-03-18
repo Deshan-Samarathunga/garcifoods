@@ -4,11 +4,16 @@ import Link from "next/link";
 import { HeroVideoBackground } from "@/components/home/hero-video-background";
 import { ProductRangeSlider } from "@/components/home/product-range-slider";
 import { ReviewCarousel } from "@/components/home/review-carousel";
+import { TrustindexReviewWidget } from "@/components/home/trustindex-review-widget";
 import { processGalleryItems } from "@/content/process-gallery";
 import { listMarketingProducts } from "@/lib/services/products";
+import { getPublicSiteReviewWidgetSettings } from "@/lib/services/site-settings";
 
 export default async function HomePage() {
-  const products = await listMarketingProducts();
+  const [products, reviewWidgetSettings] = await Promise.all([
+    listMarketingProducts(),
+    getPublicSiteReviewWidgetSettings(),
+  ]);
 
   return (
     <main>
@@ -110,7 +115,12 @@ export default async function HomePage() {
             <h2>What People Say About Garci</h2>
           </div>
 
-          <ReviewCarousel />
+          {reviewWidgetSettings.reviewsWidgetEnabled &&
+          reviewWidgetSettings.reviewsWidgetMarkup.trim() ? (
+            <TrustindexReviewWidget settings={reviewWidgetSettings} />
+          ) : (
+            <ReviewCarousel />
+          )}
         </div>
       </section>
     </main>

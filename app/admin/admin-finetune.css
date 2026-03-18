@@ -1831,18 +1831,57 @@ body.admin-route.admin-modal-open {
     justify-content: center;
   }
 
+  .admin-frame.is-rail-collapsed .admin-rail-toggle,
+  .admin-frame.is-rail-collapsed .admin-rail-nav,
+  .admin-frame.is-rail-collapsed .admin-rail-footer {
+    justify-self: center;
+    justify-items: center;
+  }
+
   .admin-frame.is-rail-collapsed .admin-rail-link {
+    width: var(--admin-rail-control-size);
     grid-template-columns: 1fr;
     justify-items: center;
     gap: 0;
-    padding-inline: 0.5rem;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
   }
 
   .admin-frame.is-rail-collapsed .admin-rail-action {
+    width: var(--admin-rail-control-size);
     grid-template-columns: 1fr;
     justify-items: center;
     gap: 0;
-    padding-inline: 0.5rem;
+    padding: 0;
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  .admin-frame.is-rail-collapsed .admin-rail-link:hover,
+  .admin-frame.is-rail-collapsed .admin-rail-link.is-active,
+  .admin-frame.is-rail-collapsed .admin-rail-action:hover {
+    transform: none;
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  .admin-frame.is-rail-collapsed .admin-rail-link-icon,
+  .admin-frame.is-rail-collapsed .admin-rail-action-icon {
+    width: var(--admin-rail-control-size);
+    height: var(--admin-rail-control-size);
+    border-radius: var(--admin-rail-control-radius);
+  }
+
+  .admin-frame.is-rail-collapsed .admin-rail-link.is-active .admin-rail-link-icon {
+    color: #f8e1a8;
+    background: rgba(248, 225, 168, 0.14);
+    border-color: rgba(248, 225, 168, 0.22);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      0 14px 24px rgba(12, 28, 20, 0.18);
   }
 
   .admin-frame.is-rail-collapsed .admin-rail-brandcopy,
