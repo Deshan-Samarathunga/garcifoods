@@ -47,7 +47,7 @@ Use the values documented in `.env.example`:
 
 ## Database rollout
 
-Run the Prisma migration before starting the app:
+Run the database migration before starting the app:
 
 ```bash
 npm run db:migrate

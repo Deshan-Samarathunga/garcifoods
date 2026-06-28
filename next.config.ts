@@ -9,11 +9,11 @@ const nextConfig: NextConfig = {
       ...(config.ignoreWarnings ?? []),
       { module: /@opentelemetry\/instrumentation/ },
       { module: /@fastify\/otel/ },
-      { module: /@prisma\/instrumentation/ },
     ];
 
     return config;
   },
+  serverExternalPackages: ["pg", "bcryptjs"],
 };
 
 export default nextConfig;

@@ -22,7 +22,7 @@ This is already how the current repo is structured.
 
 ## 2. Database and ORM
 
-- Use PostgreSQL with Prisma ORM.
+- Use PostgreSQL with database ORM.
 - Recommended managed database providers:
   - Neon
   - Supabase Postgres
@@ -30,9 +30,9 @@ This is already how the current repo is structured.
 
 Current repo status:
 
-- Prisma schema exists in `prisma/schema.prisma`.
-- Initial migration exists in `prisma/migrations/20260312_init/migration.sql`.
-- Seed script exists in `prisma/seed.ts`.
+- database schema exists in `database/schema.database`.
+- Initial migration exists in `database/migrations/20260312_init/migration.sql`.
+- Seed script exists in `database/seed.ts`.
 
 ## 3. Email service
 
@@ -116,7 +116,7 @@ GitHub Pages cannot host the final Garci app because it does not provide:
 
 - Next.js Route Handler execution
 - Auth.js session handling
-- Prisma-backed database access
+- database-backed database access
 - secure server-side environment variable handling
 - server-side email delivery
 - Turnstile verification
@@ -143,7 +143,7 @@ Implementation note:
 ## Final stack shortlist
 
 - Core: Next.js + TypeScript
-- DB: PostgreSQL + Prisma
+- DB: PostgreSQL + database
 - Email: Resend, with Postmark fallback
 - Auth: Auth.js
 - Storage: S3 / R2 / Supabase Storage for a later image-storage phase

@@ -20,7 +20,7 @@ Use Vercel for the Next.js runtime and keep GitHub Actions as the quality gate.
 6. Import the repository into Vercel.
 7. Add the environment variables in the Vercel project settings.
 8. Set the build command to `npm run build` and install command to `npm ci` if you want explicit overrides.
-9. Run the Prisma migration in your deployment pipeline or as a one-time release step:
+9. Run the database migration in your deployment pipeline or as a one-time release step:
    `npm run db:migrate`
 10. Seed the initial admin user if needed:
     `npm run db:seed`
@@ -36,7 +36,7 @@ GitHub Pages only serves static files. This application needs:
 
 - Next.js Route Handlers under `app/api/*`
 - Auth.js session handling
-- PostgreSQL access through Prisma
+- PostgreSQL access through database
 - Secure server-side environment variables
 - Email delivery and Turnstile verification on the server
 

@@ -5,7 +5,7 @@ Garci Foods is now a Next.js App Router application with a backend layer for pro
 ## Current stack
 
 - Next.js App Router + TypeScript
-- PostgreSQL + Prisma
+- PostgreSQL + database
 - Auth.js for admin authentication
 - Resend or Postmark for inquiry email delivery
 - Zod for request validation
@@ -20,7 +20,7 @@ Garci Foods is now a Next.js App Router application with a backend layer for pro
 - Public APIs under `app/api/products/*` and `app/api/contact`
 - Protected admin UI under `app/admin/*`
 - Protected admin product APIs under `app/api/admin/products/*`
-- Prisma schema, migration, and seed files under `prisma/*`
+- database schema, migration, and seed files under `database/*`
 - Legacy static HTML/CSS/JS files kept for migration reference
 
 ## Contact flow
@@ -40,7 +40,7 @@ The production contact path is email-only:
    npm ci
    ```
 2. Create your local environment file from `.env.example`.
-3. Generate the Prisma client:
+3. Generate the database client:
    ```bash
    npm run db:generate
    ```
@@ -59,7 +59,7 @@ The production contact path is email-only:
 
 ## CI/CD
 
-- `.github/workflows/ci.yml` runs install, Prisma generate, typecheck, lint, tests, and production build.
+- `.github/workflows/ci.yml` runs install, database generate, typecheck, lint, tests, and production build.
 - `.github/workflows/self-hosted-standalone.yml` builds and uploads the standalone deployment artifact.
 - Vercel is the preferred runtime host; a self-hosted standalone deployment path is also supported.
 

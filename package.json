@@ -13,22 +13,20 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate deploy",
-    "db:seed": "tsx prisma/seed.ts",
-    "package:standalone": "node scripts/package-standalone.mjs",
-    "prepare": "prisma generate"
+    "db:migrate": "tsx scripts/migrate.ts",
+    "db:seed": "tsx scripts/seed.ts",
+    "package:standalone": "node scripts/package-standalone.mjs"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.5.0",
-    "@prisma/client": "^7.5.0",
+    "@aws-sdk/client-s3": "^3.600.0",
+    "@aws-sdk/s3-request-presigner": "^3.600.0",
     "@sentry/nextjs": "^10.43.0",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.37.0",
     "bcryptjs": "^3.0.3",
     "bootstrap": "5.3.3",
     "next": "16.1.6",
-    "next-auth": "^4.24.13",
+    "next-auth": "^4.24.14",
     "pg": "^8.20.0",
     "postmark": "^4.0.7",
     "react": "19.2.3",
@@ -42,9 +40,14 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
-    "prisma": "^7.5.0",
     "tsx": "^4.21.0",
     "typescript": "^5",
     "vitest": "^4.1.0"
+  },
+  "allowScripts": {
+    "@sentry/cli": true,
+    "esbuild": true,
+    "sharp": true,
+    "unrs-resolver": true
   }
 }
